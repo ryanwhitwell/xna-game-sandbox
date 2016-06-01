@@ -18,11 +18,22 @@ namespace BadGuySmasher
   {
     GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
+    GameState gameState = GameState.Menu;
+    SpriteFont titleFont;
+    MouseState lastMouseState;
+    KeyboardState lastKeyboardState;
 
     public Game1()
     {
       graphics = new GraphicsDeviceManager(this);
+
+      graphics.IsFullScreen = false;
+      graphics.PreferredBackBufferHeight = 900;
+      graphics.PreferredBackBufferWidth = 1200;
+
       Content.RootDirectory = "Content";
+
+      lastKeyboardState = Keyboard.GetState();
     }
 
     /// <summary>
@@ -47,7 +58,7 @@ namespace BadGuySmasher
       // Create a new SpriteBatch, which can be used to draw textures.
       spriteBatch = new SpriteBatch(GraphicsDevice);
 
-      // TODO: use this.Content to load your game content here
+      titleFont = Content.Load<SpriteFont>("TitleFont");
     }
 
     /// <summary>
@@ -70,9 +81,26 @@ namespace BadGuySmasher
       if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
         this.Exit();
 
-      // TODO: Add your update logic here
+      UpdateInput();
 
       base.Update(gameTime);
+    }
+
+    private void UpdateInput()
+    {
+      KeyboardState newState = Keyboard.GetState();
+
+      if (newState.IsKeyUp(Keys.Space))
+      {
+        // If not down last update, key has just been pressed.
+        if (lastKeyboardState.IsKeyDown(Keys.Space))
+        {
+          gameState = GameState.Game;
+        }
+      }
+
+      // Update saved state.
+      lastKeyboardState = newState;
     }
 
     /// <summary>
@@ -83,7 +111,23 @@ namespace BadGuySmasher
     {
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
-      // TODO: Add your drawing code here
+      var mouseState = Mouse.GetState();
+
+      spriteBatch.Begin();
+
+      if (gameState == GameState.Menu)
+      {
+        string text = "Bad Guy Smasher";
+        spriteBatch.DrawString(titleFont, text, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - titleFont.MeasureString(text).Length() / 2, graphics.GraphicsDevice.Viewport.Height / 2), Color.Black);
+
+        text = "Press enter to begin...";
+        spriteBatch.DrawString(titleFont, text, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - titleFont.MeasureString(text).Length() / 2, graphics.GraphicsDevice.Viewport.Height / 2 + titleFont.LineSpacing), Color.Black);
+      }
+      else
+      {
+      }
+
+      spriteBatch.End();
 
       base.Draw(gameTime);
     }
