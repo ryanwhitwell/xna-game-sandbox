@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <ContentProjectGUID>{F809B3B8-08C8-46F7-B0F0-4FA043C24B47}</ContentProjectGUID>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasherContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2016-05-19T13:26:37.5306868-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
