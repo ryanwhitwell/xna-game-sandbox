@@ -58,10 +58,14 @@ namespace BadGuySmasher
       spriteBatch = new SpriteBatch(GraphicsDevice);
 
       Vector2 badGuyGeneratorPosition = new Vector2(100.0f, 100.0f);
+      Vector2 badGuyspeed1 = new Vector2(150.0f, 150.0f);
+      Vector2 badGuyposition1 = new Vector2(900.0f, 200.0f);
 
       _badGuyGenerator = new BadGuyGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 10);
+      Wall wall = new Wall(this.Content, GraphicsDevice, _worldMap, badGuyspeed1, badGuyposition1);
 
       _worldMap.Sprites.Add(_badGuyGenerator);
+      _worldMap.Sprites.Add(wall);
 
       splashScreen.LoadContent();
     }

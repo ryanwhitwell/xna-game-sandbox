@@ -17,3 +17,5 @@ C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\basicb
 C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\BadGuyGenerator.xnb
 C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\badguy.xnb
 C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\advancedbadguy.xnb
+C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\advancedbadguy.xnb
+C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\wall.xnb
