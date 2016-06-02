@@ -10,6 +10,9 @@ namespace BadGuySmasher
     public Result X { get; set; }
     public Result Y { get; set; }
 
+    public int XMove { get; set; }
+    public int YMove { get; set; }
+
     public enum Result
     {
       None,

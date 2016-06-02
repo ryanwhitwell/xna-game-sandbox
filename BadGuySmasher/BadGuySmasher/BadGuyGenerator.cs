@@ -112,8 +112,10 @@ namespace BadGuySmasher
       if (gameTime.TotalGameTime - _lastGuyGeneratedAt > _timeBetweenGenerations)
       {
         Vector2 vectorSpeed = new Vector2(_random.Next(-200, 200), _random.Next(-200, 200));
+        //Vector2 vectorSpeed = new Vector2(0, 100);
 
-        Vector2 vectorPosition = new Vector2(_spritePosition.X + _random.Next(-100, 100), _spritePosition.Y + _random.Next(-100, 100));
+        //Vector2 vectorPosition = new Vector2(_spritePosition.X + 100, _spritePosition.Y + 100);
+        Vector2 vectorPosition = new Vector2(_spritePosition.X + _random.Next(-200, 200), _spritePosition.Y + _random.Next(-200, 200));
         Sprite basicBadGuy = new Sprite(_contentManager, _graphicsDevice, _worldMap, vectorSpeed, vectorPosition);
 
         _basicBadGuys.Add(basicBadGuy);

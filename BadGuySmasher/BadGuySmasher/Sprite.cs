@@ -86,16 +86,28 @@ namespace BadGuySmasher
 
       CollisionResults collisionResults = _worldMap.GetCollisionResults(this);
 
-      if (collisionResults.X != CollisionResults.Result.None)
+      if (collisionResults.XMove != 0)
       {
-        _spriteVelocity.X *= -1;
-        _spritePosition.X = originalPosition.X;
+        bool velocityPos = _spriteVelocity.X > 0;
+        bool movePos = collisionResults.XMove > 0;
+
+        if (velocityPos != movePos)
+        {
+          _spriteVelocity.X *= -1;
+          _spritePosition.X = originalPosition.X;
+        }
       }
 
-      if (collisionResults.Y != CollisionResults.Result.None)
+      if (collisionResults.YMove != 0)
       {
-        _spriteVelocity.Y *= -1;
-        _spritePosition.Y = originalPosition.Y;
+        bool velocityPos = _spriteVelocity.Y > 0;
+        bool movePos = collisionResults.YMove > 0;
+
+        if (velocityPos != movePos)
+        {
+          _spriteVelocity.Y *= -1;
+          _spritePosition.Y = originalPosition.Y;
+        }
       }
 
       UpdateSpriteBounds(_spritePosition);

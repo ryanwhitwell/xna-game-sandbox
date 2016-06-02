@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -54,19 +55,23 @@ namespace BadGuySmasher
       if (spriteBounds.X < MinX)
       {
         collisionResults.X = CollisionResults.Result.TooSmall;
+        collisionResults.XMove = MinX - spriteBounds.X;
       }
       else if(spriteBounds.X > MaxX)
       {
         collisionResults.X = CollisionResults.Result.TooBig;
+        collisionResults.XMove = MaxX - spriteBounds.X;
       }
       
       if(spriteBounds.Y < MinY)
       {
         collisionResults.Y = CollisionResults.Result.TooSmall;
+        collisionResults.YMove = MinY - spriteBounds.Y;
       }
       else if(spriteBounds.Y > MaxY)
       {
         collisionResults.Y = CollisionResults.Result.TooBig;
+        collisionResults.YMove = MaxY - spriteBounds.Y;
       }
 
       return collisionResults;
@@ -107,6 +112,7 @@ namespace BadGuySmasher
           int collisionObjectTop = thing.GetSpriteBounds().Top;
           int collisionObjectBottom = thing.GetSpriteBounds().Bottom;
 
+          /*
           if (spriteLeft >= collisionObjectLeft && spriteLeft <= collisionObjectRight)
           {
             collisionResults.X = CollisionResults.Result.TooSmall;
@@ -116,7 +122,7 @@ namespace BadGuySmasher
             collisionResults.X = CollisionResults.Result.TooBig;
           }
 
-          if (spriteTop >= collisionObjectBottom && spriteTop <= collisionObjectTop)
+          if (spriteTop <= collisionObjectBottom && spriteTop >= collisionObjectTop)
           {
             collisionResults.Y = CollisionResults.Result.TooSmall;
           }
@@ -124,12 +130,41 @@ namespace BadGuySmasher
           {
             collisionResults.Y = CollisionResults.Result.TooBig;
           }
+          */
+
+          int threshold = 20;
+          if (InRange(spriteLeft, collisionObjectRight, threshold))
+          {
+            collisionResults.X = CollisionResults.Result.TooSmall;
+            collisionResults.XMove = collisionObjectRight - spriteLeft;
+          }
+          else if (InRange(spriteRight, collisionObjectLeft, threshold))
+          {
+            collisionResults.X = CollisionResults.Result.TooBig;
+            collisionResults.XMove = collisionObjectLeft - spriteRight;
+          }
+
+          if (InRange(spriteTop, collisionObjectBottom, threshold))
+          {
+            collisionResults.Y = CollisionResults.Result.TooSmall;
+            collisionResults.YMove = spriteTop - collisionObjectBottom;
+          }
+          else if (InRange(spriteBottom, collisionObjectTop, threshold))
+          {
+            collisionResults.Y = CollisionResults.Result.TooBig;
+            collisionResults.YMove = collisionObjectTop - spriteBottom;
+          }
 
           return collisionResults;
         }
       }
 
       return collisionResults;
+    }
+
+    private bool InRange(int one, int two, int tolerance)
+    {
+      return Math.Abs(one - two) <= tolerance;
     }
 
     private Rectangle GetTitleSafeArea(float percent)
