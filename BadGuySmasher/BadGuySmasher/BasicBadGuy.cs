@@ -99,6 +99,7 @@ namespace BadGuySmasher
         _spriteSpeed.Y *= -1;
         _spritePosition.Y = MaxY;
       }
+
       else if (_spritePosition.Y < MinY)
       {
         _spriteSpeed.Y *= -1;

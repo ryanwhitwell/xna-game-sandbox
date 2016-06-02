@@ -17,8 +17,7 @@ namespace BadGuySmasher
     SpriteBatch spriteBatch;
     GameState gameState = GameState.Menu;
     SplashScreen splashScreen;
-
-    BasicBadGuy _badGuy;
+    WorldMap _worldMap;
 
     public BadGuySmasherGame()
     {
@@ -42,6 +41,7 @@ namespace BadGuySmasher
     protected override void Initialize()
     {
       // TODO: Add your initialization logic here
+      _worldMap = new WorldMap(this.GraphicsDevice);
 
       base.Initialize();
     }
@@ -55,10 +55,17 @@ namespace BadGuySmasher
       // Create a new SpriteBatch, which can be used to draw textures.
       spriteBatch = new SpriteBatch(GraphicsDevice);
 
-      Vector2 badGuyspeed     = new Vector2(50.0f, 50.0f);
-      Vector2 badGuyposition  = new Vector2(200.0f, 200.0f);
+      Vector2 badGuyspeed1     = new Vector2(150.0f, 150.0f);
+      Vector2 badGuyposition1  = new Vector2(200.0f, 200.0f);
 
-      _badGuy = new BasicBadGuy(this.Content, GraphicsDevice, badGuyspeed, badGuyposition);
+      Vector2 badGuyspeed2     = new Vector2(150.0f, -150.0f);
+      Vector2 badGuyposition2  = new Vector2(300.0f, 200.0f);
+
+      Sprite advancedBadGuy1 = new Sprite(this.Content, GraphicsDevice, _worldMap, badGuyspeed1, badGuyposition1);
+      Sprite advancedBadGuy2 = new Sprite(this.Content, GraphicsDevice, _worldMap, badGuyspeed2, badGuyposition2);
+
+      _worldMap.Sprites.Add(advancedBadGuy1);
+      _worldMap.Sprites.Add(advancedBadGuy2);
 
       splashScreen.LoadContent();
     }
@@ -85,7 +92,7 @@ namespace BadGuySmasher
 
       UpdateInput();
 
-      _badGuy.UpdateSpriteVectors(gameTime);
+      _worldMap.UpdateSpriteVectors(gameTime);
 
       base.Update(gameTime);
     }
@@ -116,7 +123,7 @@ namespace BadGuySmasher
       }
       else
       {
-        _badGuy.Draw(gameTime);
+        _worldMap.DrawSprites(gameTime);
       }
 
       spriteBatch.End();

@@ -13,3 +13,4 @@ C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\obj\x86\Debug\BadGuySmasher.
 C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\TitleFont.xnb
 C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\TitleFont.xnb
 C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\basicbadguy.xnb
+C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\advancedbadguy.xnb
