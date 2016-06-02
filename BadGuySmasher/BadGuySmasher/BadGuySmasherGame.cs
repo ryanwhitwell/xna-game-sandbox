@@ -19,6 +19,8 @@ namespace BadGuySmasher
     SplashScreen splashScreen;
     WorldMap _worldMap;
 
+    BadGuyGenerator _badGuyGenerator;
+
     public BadGuySmasherGame()
     {
       graphics = new GraphicsDeviceManager(this);
@@ -58,6 +60,8 @@ namespace BadGuySmasher
       Vector2 badGuyspeed1     = new Vector2(150.0f, 150.0f);
       Vector2 badGuyposition1  = new Vector2(200.0f, 200.0f);
 
+      Vector2 badGuyGeneratorPosition = new Vector2(100.0f, 100.0f);
+      _badGuyGenerator = new BadGuyGenerator(Content, GraphicsDevice, badGuyGeneratorPosition, 10);
       Vector2 badGuyspeed2     = new Vector2(150.0f, -150.0f);
       Vector2 badGuyposition2  = new Vector2(300.0f, 200.0f);
 
@@ -92,6 +96,10 @@ namespace BadGuySmasher
 
       UpdateInput();
 
+      if (gameState == GameState.Game)
+      {
+        _badGuyGenerator.Update(gameTime);
+      }
       _worldMap.UpdateSpriteVectors(gameTime);
 
       base.Update(gameTime);
@@ -123,6 +131,7 @@ namespace BadGuySmasher
       }
       else
       {
+        _badGuyGenerator.Draw(gameTime);
         _worldMap.DrawSprites(gameTime);
       }
 

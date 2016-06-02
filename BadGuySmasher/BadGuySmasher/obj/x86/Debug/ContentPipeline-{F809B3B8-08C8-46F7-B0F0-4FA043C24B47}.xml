@@ -8,7 +8,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\TitleFont.xnb</Output>
-      <Time>2016-06-02T08:59:18.9324433-05:00</Time>
+      <Time>0001-01-01T00:00:00</Time>
     </Item>
     <Item>
       <Source>basicbadguy.png</Source>
@@ -17,18 +17,9 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\basicbadguy.xnb</Output>
-      <Time>2016-06-02T09:01:20.0565675-05:00</Time>
+      <Time>0001-01-01T00:00:00</Time>
     </Item>
-    <Item>
-      <Source>advancedbadguy.png</Source>
-      <Name>advancedbadguy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\advancedbadguy.xnb</Output>
-      <Time>2016-06-02T10:10:08.3052229-05:00</Time>
-    </Item>
-    <BuildSuccessful>true</BuildSuccessful>
+    <BuildSuccessful>false</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{F809B3B8-08C8-46F7-B0F0-4FA043C24B47}</ContentProjectGUID>
       <TargetPlatform>Windows</TargetPlatform>
