@@ -7,8 +7,17 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\TitleFont.xnb</Output>
-      <Time>2016-06-01T17:21:53.3438577-05:00</Time>
+      <Output>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\TitleFont.xnb</Output>
+      <Time>2016-06-02T08:59:18.9324433-05:00</Time>
+    </Item>
+    <Item>
+      <Source>basicbadguy.png</Source>
+      <Name>basicbadguy</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\basicbadguy.xnb</Output>
+      <Time>2016-06-02T09:01:20.0565675-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -17,10 +26,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasherContent\</RootDirectory>
-      <LoggerRootDirectory>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasherContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -48,8 +57,8 @@
         <Value>2011-09-01T16:22:30-05:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2016-05-19T17:07:18.9216542-05:00</Value>
+        <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2016-05-19T13:26:37.5306868-05:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

@@ -11,3 +11,5 @@ C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\obj\x86\Debug\Microsoft.Xna.
 C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\obj\x86\Debug\BadGuySmasher.exe
 C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\obj\x86\Debug\BadGuySmasher.pdb
 C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\TitleFont.xnb
+C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\TitleFont.xnb
+C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\basicbadguy.xnb

@@ -11,17 +11,16 @@ using Microsoft.Xna.Framework.Media;
 
 namespace BadGuySmasher
 {
-  /// <summary>
-  /// This is the main type for your game
-  /// </summary>
-  public class Game1 : Microsoft.Xna.Framework.Game
+  public class BadGuySmasherGame : Microsoft.Xna.Framework.Game
   {
     GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
     GameState gameState = GameState.Menu;
     SplashScreen splashScreen;
 
-    public Game1()
+    BasicBadGuy _badGuy;
+
+    public BadGuySmasherGame()
     {
       graphics = new GraphicsDeviceManager(this);
 
@@ -56,6 +55,11 @@ namespace BadGuySmasher
       // Create a new SpriteBatch, which can be used to draw textures.
       spriteBatch = new SpriteBatch(GraphicsDevice);
 
+      Vector2 badGuyspeed     = new Vector2(50.0f, 50.0f);
+      Vector2 badGuyposition  = new Vector2(200.0f, 200.0f);
+
+      _badGuy = new BasicBadGuy(this.Content, GraphicsDevice, badGuyspeed, badGuyposition);
+
       splashScreen.LoadContent();
     }
 
@@ -80,6 +84,8 @@ namespace BadGuySmasher
         this.Exit();
 
       UpdateInput();
+
+      _badGuy.UpdateSpriteVectors(gameTime);
 
       base.Update(gameTime);
     }
@@ -110,6 +116,7 @@ namespace BadGuySmasher
       }
       else
       {
+        _badGuy.Draw(gameTime);
       }
 
       spriteBatch.End();
