@@ -57,19 +57,11 @@ namespace BadGuySmasher
       // Create a new SpriteBatch, which can be used to draw textures.
       spriteBatch = new SpriteBatch(GraphicsDevice);
 
-      Vector2 badGuyspeed1     = new Vector2(150.0f, 150.0f);
-      Vector2 badGuyposition1  = new Vector2(200.0f, 200.0f);
-
       Vector2 badGuyGeneratorPosition = new Vector2(100.0f, 100.0f);
-      _badGuyGenerator = new BadGuyGenerator(Content, GraphicsDevice, badGuyGeneratorPosition, 10);
-      Vector2 badGuyspeed2     = new Vector2(150.0f, -150.0f);
-      Vector2 badGuyposition2  = new Vector2(300.0f, 200.0f);
 
-      Sprite advancedBadGuy1 = new Sprite(this.Content, GraphicsDevice, _worldMap, badGuyspeed1, badGuyposition1);
-      Sprite advancedBadGuy2 = new Sprite(this.Content, GraphicsDevice, _worldMap, badGuyspeed2, badGuyposition2);
+      _badGuyGenerator = new BadGuyGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 10);
 
-      _worldMap.Sprites.Add(advancedBadGuy1);
-      _worldMap.Sprites.Add(advancedBadGuy2);
+      _worldMap.Sprites.Add(_badGuyGenerator);
 
       splashScreen.LoadContent();
     }
@@ -98,9 +90,8 @@ namespace BadGuySmasher
 
       if (gameState == GameState.Game)
       {
-        _badGuyGenerator.Update(gameTime);
+        _worldMap.UpdateSpriteVectors(gameTime);
       }
-      _worldMap.UpdateSpriteVectors(gameTime);
 
       base.Update(gameTime);
     }
@@ -123,8 +114,6 @@ namespace BadGuySmasher
 
       var mouseState = Mouse.GetState();
 
-      spriteBatch.Begin();
-
       if (gameState == GameState.Menu)
       {
         splashScreen.Draw(spriteBatch);
@@ -134,8 +123,6 @@ namespace BadGuySmasher
         _badGuyGenerator.Draw(gameTime);
         _worldMap.DrawSprites(gameTime);
       }
-
-      spriteBatch.End();
 
       base.Draw(gameTime);
     }

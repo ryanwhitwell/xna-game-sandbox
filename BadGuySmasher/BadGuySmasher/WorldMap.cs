@@ -35,8 +35,9 @@ namespace BadGuySmasher
 
     public void UpdateSpriteVectors(GameTime gameTime)
     {
-      foreach (ISprite sprite in _sprites)
+      for (int i = 0; i < _sprites.Count; i++)
       {
+        ISprite sprite = _sprites.ElementAt(i);
         sprite.UpdateSpriteVectors(gameTime);
       }
     }

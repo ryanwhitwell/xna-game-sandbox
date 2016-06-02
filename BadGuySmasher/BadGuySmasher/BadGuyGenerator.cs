@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher
 {
-  class BadGuyGenerator : SpriteBatch
+  class BadGuyGenerator : SpriteBatch, ISprite
   {
     private Texture2D       _texture;
     private ContentManager  _contentManager;
@@ -19,12 +19,15 @@ namespace BadGuySmasher
     private int             _maxBadGuys;
     private TimeSpan        _lastGuyGeneratedAt = new TimeSpan();
     private Random          _random = new Random((int)DateTime.Now.Ticks);
+    private Rectangle       _spriteBounds;
+    private WorldMap        _worldMap;
+    private string          _id;
     
     private readonly TimeSpan  _timeBetweenGenerations = new TimeSpan(0, 0, 3);
 
-    private List<BasicBadGuy> _basicBadGuys = new List<BasicBadGuy>();
+    private List<Sprite> _basicBadGuys = new List<Sprite>();
 
-    public BadGuyGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, Vector2 spritePosition, int maxBadGuys) : base(graphicsDevice)
+    public BadGuyGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, int maxBadGuys) : base(graphicsDevice)
     {
       if (contentManager == null)
       {
@@ -48,9 +51,14 @@ namespace BadGuySmasher
       _spriteSpeed    = new Vector2(0, 0);
       _spritePosition = spritePosition;
       _maxBadGuys     = maxBadGuys;
+      _worldMap       = worldMap;
+      _id             = Guid.NewGuid().ToString("N");
+
+      _spriteBounds = new Rectangle((int)(spritePosition.X - _texture.Width / 2), (int)(spritePosition.Y - _texture.Height / 2), _texture.Width, _texture.Height);
     }
 
     public Texture2D Texture { get { return _texture; } private set { } }
+    public Vector2 SpritePosition { get { return _spritePosition; } }
 
     private Rectangle GetTitleSafeArea(float percent)
     {
@@ -72,13 +80,30 @@ namespace BadGuySmasher
 #endif
     }
 
-    public void Update(GameTime gameTime)
+    public void Draw(GameTime gameTime)
     {
-      foreach (BasicBadGuy badGuy in _basicBadGuys)
-      {
-        badGuy.UpdateSpriteVectors(gameTime);
-      }
+      this.Begin();
+      this.Draw(_texture, _spritePosition, Color.White);
+      this.End();
 
+      this.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
+      RasterizerState state = new RasterizerState();
+      state.FillMode = FillMode.WireFrame;
+      this.GraphicsDevice.RasterizerState = state;
+
+      this.Draw(_texture, _spritePosition, Color.White);
+      this.End();
+    }
+
+    public string Id { get { return _id; } private set { } }
+
+    public Rectangle GetSpriteBounds()
+    {
+      return _spriteBounds;
+    }
+
+    public void UpdateSpriteVectors(GameTime gameTime)
+    {
       if (_basicBadGuys.Count >= _maxBadGuys)
       {
         return;
@@ -89,25 +114,13 @@ namespace BadGuySmasher
         Vector2 vectorSpeed = new Vector2(_random.Next(-200, 200), _random.Next(-200, 200));
 
         Vector2 vectorPosition = new Vector2(_spritePosition.X + _random.Next(-100, 100), _spritePosition.Y + _random.Next(-100, 100));
-        BasicBadGuy basicBadGuy = new BasicBadGuy(_contentManager, _graphicsDevice, vectorSpeed, vectorPosition);
+        Sprite basicBadGuy = new Sprite(_contentManager, _graphicsDevice, _worldMap, vectorSpeed, vectorPosition);
 
         _basicBadGuys.Add(basicBadGuy);
+        _worldMap.Sprites.Add(basicBadGuy);
 
         _lastGuyGeneratedAt = gameTime.TotalGameTime;
       }
-    }
-
-    public void Draw(GameTime gameTime)
-    {
-      this.Begin();
-      this.Draw(_texture, _spritePosition, Color.White);
-
-      foreach (BasicBadGuy badGuy in _basicBadGuys)
-      {
-        badGuy.Draw(gameTime);
-      }
-
-      this.End();
     }
   }
 }

@@ -62,11 +62,15 @@ namespace BadGuySmasher
 
     public void Draw(SpriteBatch spriteBatch)
     {
+      spriteBatch.Begin();
+
       string text = "Bad Guy Smasher";
       spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2), Color.Black);
 
       text = "Press the space bar to begin.";
       spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2 + _titleFont.LineSpacing), Color.Black);
+
+      spriteBatch.End();
     }
   }
 }

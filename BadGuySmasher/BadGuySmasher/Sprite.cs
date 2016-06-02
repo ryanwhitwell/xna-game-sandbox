@@ -42,7 +42,7 @@ namespace BadGuySmasher
         throw new ArgumentNullException("worldMap");
       }
 
-      _texture        = contentManager.Load<Texture2D>("advancedbadguy");
+      _texture        = contentManager.Load<Texture2D>("badguy");
       _graphicsDevice = graphicsDevice;
       _spriteVelocity = spriteSpeed;
       _spritePosition = spritePosition;
@@ -52,6 +52,7 @@ namespace BadGuySmasher
     }
 
     public Texture2D Texture { get { return _texture; } private set { } }
+    public Vector2 SpritePosition { get { return _spritePosition; } }
 
     public string Id { get { return _id; } private set { } }
 
@@ -63,6 +64,14 @@ namespace BadGuySmasher
     public void Draw(GameTime gameTime)
     {
       this.Begin();
+      this.Draw(_texture, _spritePosition, Color.White);
+      this.End();
+
+      this.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
+      RasterizerState state = new RasterizerState();
+      state.FillMode = FillMode.WireFrame;
+      this.GraphicsDevice.RasterizerState = state;
+
       this.Draw(_texture, _spritePosition, Color.White);
       this.End();
     }
