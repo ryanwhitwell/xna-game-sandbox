@@ -13,6 +13,8 @@ namespace BadGuySmasher
     private Vector2         _spritePosition;
     private Vector2         _spriteSpeed;
 
+    private Vector2         _origin;
+
     public BasicBadGuy(ContentManager contentManager, GraphicsDevice graphicsDevice, Vector2 spriteSpeed, Vector2 spritePosition) : base(graphicsDevice)
     {
       if (contentManager == null)
@@ -35,11 +37,14 @@ namespace BadGuySmasher
         throw new ArgumentNullException("spritePosition");
       }
 
-      _texture        = contentManager.Load<Texture2D>("basicbadguy");
+      _texture        = contentManager.Load<Texture2D>("badguy");
       _graphicsDevice = graphicsDevice;
       _titleSafeArea  = GetTitleSafeArea(.8f);
       _spriteSpeed    = spriteSpeed;
       _spritePosition = spritePosition;
+
+      _origin.X = _texture.Width / 2;
+      _origin.Y = _texture.Height / 2;
     }
 
     public Texture2D Texture { get { return _texture; } private set { } }
@@ -67,6 +72,7 @@ namespace BadGuySmasher
     public void Draw(GameTime gameTime)
     {
       this.Begin();
+      ////this.Draw(_texture, _spritePosition, null, Color.White, 40f, _origin, 1f, SpriteEffects.None, 0f);
       this.Draw(_texture, _spritePosition, Color.White);
       this.End();
     }
