@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadGuyGenerator.cs" />
+    <Compile Include="Wall.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="BasicBadGuy.cs" />
     <Compile Include="CollisionResults.cs" />
