@@ -19,9 +19,7 @@ namespace BadGuySmasher
     GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
     GameState gameState = GameState.Menu;
-    SpriteFont titleFont;
-    MouseState lastMouseState;
-    KeyboardState lastKeyboardState;
+    SplashScreen splashScreen;
 
     public Game1()
     {
@@ -33,7 +31,7 @@ namespace BadGuySmasher
 
       Content.RootDirectory = "Content";
 
-      lastKeyboardState = Keyboard.GetState();
+      splashScreen = new SplashScreen(Content, graphics);
     }
 
     /// <summary>
@@ -58,7 +56,7 @@ namespace BadGuySmasher
       // Create a new SpriteBatch, which can be used to draw textures.
       spriteBatch = new SpriteBatch(GraphicsDevice);
 
-      titleFont = Content.Load<SpriteFont>("TitleFont");
+      splashScreen.LoadContent();
     }
 
     /// <summary>
@@ -88,19 +86,10 @@ namespace BadGuySmasher
 
     private void UpdateInput()
     {
-      KeyboardState newState = Keyboard.GetState();
-
-      if (newState.IsKeyUp(Keys.Space))
+      if (splashScreen.UpdateInput() == SplashScreen.State.Exit)
       {
-        // If not down last update, key has just been pressed.
-        if (lastKeyboardState.IsKeyDown(Keys.Space))
-        {
-          gameState = GameState.Game;
-        }
+        gameState = GameState.Game;
       }
-
-      // Update saved state.
-      lastKeyboardState = newState;
     }
 
     /// <summary>
@@ -117,11 +106,7 @@ namespace BadGuySmasher
 
       if (gameState == GameState.Menu)
       {
-        string text = "Bad Guy Smasher";
-        spriteBatch.DrawString(titleFont, text, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - titleFont.MeasureString(text).Length() / 2, graphics.GraphicsDevice.Viewport.Height / 2), Color.Black);
-
-        text = "Press enter to begin...";
-        spriteBatch.DrawString(titleFont, text, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - titleFont.MeasureString(text).Length() / 2, graphics.GraphicsDevice.Viewport.Height / 2 + titleFont.LineSpacing), Color.Black);
+        splashScreen.Draw(spriteBatch);
       }
       else
       {
