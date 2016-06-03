@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -9,13 +8,13 @@ namespace BadGuySmasher
 {
   public class WorldMap
   {
-    private ICollection<ISprite> _sprites;
-    private GraphicsDevice  _graphicsDevice;
-    private Rectangle       _titleSafeArea;
+    private ICollection<ISprite>  _sprites;
+    private GraphicsDevice        _graphicsDevice;
+    private Rectangle             _titleSafeArea;
 
     public WorldMap(GraphicsDevice graphicsDevice) 
     {
-      _sprites = new Collection<ISprite>();
+      _sprites        = new Collection<ISprite>();
       _graphicsDevice = graphicsDevice;
       _titleSafeArea  = GetTitleSafeArea(.8f);
     }
@@ -39,7 +38,7 @@ namespace BadGuySmasher
       for (int i = 0; i < _sprites.Count; i++)
       {
         ISprite sprite = _sprites.ElementAt(i);
-        sprite.UpdateSpriteVectors(gameTime);
+        sprite.Update(gameTime);
       }
     }
 
@@ -80,7 +79,7 @@ namespace BadGuySmasher
     public CollisionResults GetCollisionResults(ISprite sprite)
     {
       // If the object hits the boundary immediately return
-      CollisionResults collisionResults = GetBoundryCollisionResult(sprite.GetSpriteBounds());
+      CollisionResults collisionResults = GetBoundryCollisionResult(sprite.Bounds);
 
       if (!collisionResults.Empty)
       {
@@ -98,73 +97,47 @@ namespace BadGuySmasher
 
       foreach (ISprite thing in otherStuff)
       {
-        if (sprite.GetSpriteBounds().Intersects(thing.GetSpriteBounds()))
+        if (sprite.Bounds.Intersects(thing.Bounds))
         {
-          int spriteLeft = sprite.GetSpriteBounds().Left;
-          int spriteRight = sprite.GetSpriteBounds().Right;
+          int spriteLeft = sprite.Bounds.Left;
+          int spriteRight = sprite.Bounds.Right;
 
-          int collisionObjectLeft = thing.GetSpriteBounds().Left;
-          int collisionObjectRight = thing.GetSpriteBounds().Right;
+          int collisionObjectLeft = thing.Bounds.Left;
+          int collisionObjectRight = thing.Bounds.Right;
 
-          int spriteTop = sprite.GetSpriteBounds().Top;
-          int spriteBottom = sprite.GetSpriteBounds().Bottom;
+          int spriteTop = sprite.Bounds.Top;
+          int spriteBottom = sprite.Bounds.Bottom;
 
-          int collisionObjectTop = thing.GetSpriteBounds().Top;
-          int collisionObjectBottom = thing.GetSpriteBounds().Bottom;
+          int collisionObjectTop = thing.Bounds.Top;
+          int collisionObjectBottom = thing.Bounds.Bottom;
 
-          /*
           if (spriteLeft >= collisionObjectLeft && spriteLeft <= collisionObjectRight)
           {
             collisionResults.X = CollisionResults.Result.TooSmall;
+            collisionResults.XMove  = collisionObjectRight - spriteLeft;
           }
           else if (spriteRight >= collisionObjectLeft && spriteRight <= collisionObjectRight)
-          {
-            collisionResults.X = CollisionResults.Result.TooBig;
-          }
-
-          if (spriteTop <= collisionObjectBottom && spriteTop >= collisionObjectTop)
-          {
-            collisionResults.Y = CollisionResults.Result.TooSmall;
-          }
-          else if (spriteBottom >= collisionObjectTop && spriteBottom <= collisionObjectBottom)
-          {
-            collisionResults.Y = CollisionResults.Result.TooBig;
-          }
-          */
-
-          int threshold = 20;
-          if (InRange(spriteLeft, collisionObjectRight, threshold))
-          {
-            collisionResults.X = CollisionResults.Result.TooSmall;
-            collisionResults.XMove = collisionObjectRight - spriteLeft;
-          }
-          else if (InRange(spriteRight, collisionObjectLeft, threshold))
           {
             collisionResults.X = CollisionResults.Result.TooBig;
             collisionResults.XMove = collisionObjectLeft - spriteRight;
           }
 
-          if (InRange(spriteTop, collisionObjectBottom, threshold))
+          if (spriteTop <= collisionObjectBottom && spriteTop >= collisionObjectTop)
           {
             collisionResults.Y = CollisionResults.Result.TooSmall;
-            collisionResults.YMove = spriteTop - collisionObjectBottom;
+             collisionResults.YMove = collisionObjectBottom - spriteTop;
           }
-          else if (InRange(spriteBottom, collisionObjectTop, threshold))
+          else if (spriteBottom >= collisionObjectTop && spriteBottom <= collisionObjectBottom)
           {
             collisionResults.Y = CollisionResults.Result.TooBig;
             collisionResults.YMove = collisionObjectTop - spriteBottom;
-          }
+          }          
 
           return collisionResults;
         }
       }
 
       return collisionResults;
-    }
-
-    private bool InRange(int one, int two, int tolerance)
-    {
-      return Math.Abs(one - two) <= tolerance;
     }
 
     private Rectangle GetTitleSafeArea(float percent)

@@ -14,24 +14,20 @@ namespace BadGuySmasher
   public class BadGuySmasherGame : Microsoft.Xna.Framework.Game
   {
     GraphicsDeviceManager graphics;
-    SpriteBatch spriteBatch;
     GameState gameState = GameState.Menu;
-    SplashScreen splashScreen;
+    SplashScreen _splashScreen;
     WorldMap _worldMap;
 
-    BadGuyGenerator _badGuyGenerator;
+    SpriteGenerator _badGuyGenerator;
 
     public BadGuySmasherGame()
     {
       graphics = new GraphicsDeviceManager(this);
 
-      graphics.IsFullScreen = false;
-      graphics.PreferredBackBufferHeight = 900;
-      graphics.PreferredBackBufferWidth = 1200;
-
-      Content.RootDirectory = "Content";
-
-      splashScreen = new SplashScreen(Content, graphics);
+      graphics.IsFullScreen               = false;
+      graphics.PreferredBackBufferHeight  = 900;
+      graphics.PreferredBackBufferWidth   = 1200;
+      Content.RootDirectory               = "Content";
     }
 
     /// <summary>
@@ -43,7 +39,8 @@ namespace BadGuySmasher
     protected override void Initialize()
     {
       // TODO: Add your initialization logic here
-      _worldMap = new WorldMap(this.GraphicsDevice);
+      _worldMap     = new WorldMap(this.GraphicsDevice);
+      _splashScreen = new SplashScreen(Content, graphics, "TitleFont");
 
       base.Initialize();
     }
@@ -54,20 +51,15 @@ namespace BadGuySmasher
     /// </summary>
     protected override void LoadContent()
     {
-      // Create a new SpriteBatch, which can be used to draw textures.
-      spriteBatch = new SpriteBatch(GraphicsDevice);
-
       Vector2 badGuyGeneratorPosition = new Vector2(300.0f, 300.0f);
-      Vector2 badGuyspeed1 = new Vector2(150.0f, 150.0f);
-      Vector2 badGuyposition1 = new Vector2(900.0f, 200.0f);
+      _badGuyGenerator = new SpriteGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 10, 3, "BadGuyGenerator", "badguy");
+      _badGuyGenerator.DrawBounds = true;
 
-      _badGuyGenerator = new BadGuyGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 10);
-      Wall wall = new Wall(this.Content, GraphicsDevice, _worldMap, badGuyspeed1, badGuyposition1);
+      Vector2 wallPosition = new Vector2(900.0f, 200.0f);
+      Sprite wall = new Sprite(this.Content, GraphicsDevice, _worldMap, wallPosition, "wall");
 
       _worldMap.Sprites.Add(_badGuyGenerator);
       _worldMap.Sprites.Add(wall);
-
-      splashScreen.LoadContent();
     }
 
     /// <summary>
@@ -102,7 +94,7 @@ namespace BadGuySmasher
 
     private void UpdateInput()
     {
-      if (splashScreen.UpdateInput() == SplashScreen.State.Exit)
+      if (_splashScreen.UpdateInput() == SplashScreen.State.Exit)
       {
         gameState = GameState.Game;
       }
@@ -120,11 +112,10 @@ namespace BadGuySmasher
 
       if (gameState == GameState.Menu)
       {
-        splashScreen.Draw(spriteBatch);
+        _splashScreen.Draw();
       }
       else
       {
-        _badGuyGenerator.Draw(gameTime);
         _worldMap.DrawSprites(gameTime);
       }
 

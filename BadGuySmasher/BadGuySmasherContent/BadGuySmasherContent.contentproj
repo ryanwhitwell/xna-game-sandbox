@@ -38,13 +38,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="basicbadguy.png">
-      <Name>basicbadguy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="BadGuyGenerator.png">
       <Name>BadGuyGenerator</Name>
       <Importer>TextureImporter</Importer>
@@ -54,13 +47,6 @@
   <ItemGroup>
     <Compile Include="badguy.png">
       <Name>badguy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="advancedbadguy.png">
-      <Name>advancedbadguy</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

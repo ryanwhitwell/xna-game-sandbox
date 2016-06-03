@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,13 +6,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BadGuySmasher
 {
-  class SplashScreen
+  public class SplashScreen
   {
     SpriteFont            _titleFont;
     KeyboardState         _lastKeyboardState;
     ContentManager        _contentManager;
     GraphicsDeviceManager _graphics;
     State                 _state = State.Showing;
+    SpriteBatch           _spriteBatch;
 
     public enum State
     {
@@ -24,16 +22,28 @@ namespace BadGuySmasher
       Done
     }
 
-    public SplashScreen(ContentManager contentManager, GraphicsDeviceManager graphics)
+    public SplashScreen(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName)
     {
-      _contentManager    = contentManager;
-      _graphics          = graphics;
-      _lastKeyboardState = Keyboard.GetState();
-    }
+      if (contentManager == null)
+      {
+        throw new ArgumentNullException("contentManager");
+      }
 
-    public void LoadContent()
-    {
-      _titleFont = _contentManager.Load<SpriteFont>("TitleFont");
+      if (graphics == null)
+      {
+        throw new ArgumentNullException("graphics");
+      }
+
+      if (string.IsNullOrWhiteSpace(spriteFontAssetName))
+      {
+        throw new ArgumentNullException("spriteFontAssetName");
+      }
+      
+      _contentManager     = contentManager;
+      _graphics           = graphics;
+      _lastKeyboardState  = Keyboard.GetState();
+      _spriteBatch        = new SpriteBatch(graphics.GraphicsDevice);
+      _titleFont          = _contentManager.Load<SpriteFont>(spriteFontAssetName);
     }
 
     public State UpdateInput()
@@ -60,17 +70,17 @@ namespace BadGuySmasher
       return _state;
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw()
     {
-      spriteBatch.Begin();
+      _spriteBatch.Begin();
 
       string text = "Bad Guy Smasher";
-      spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2), Color.Black);
+      _spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2), Color.Black);
 
       text = "Press the space bar to begin.";
-      spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2 + _titleFont.LineSpacing), Color.Black);
+      _spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2 + _titleFont.LineSpacing), Color.Black);
 
-      spriteBatch.End();
+      _spriteBatch.End();
     }
   }
 }
