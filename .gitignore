@@ -1,5 +1,6 @@
 /BadGuySmasher/BadGuySmasher/bin/x86/Debug/Content
-/BadGuySmasher/BadGuySmasher/obj/x86/Debug
+/BadGuySmasher/BadGuySmasher/obj/x86/Debug/*.txt
+/BadGuySmasher/BadGuySmasher/obj/x86/Debug/*.xml
 /BadGuySmasher/BadGuySmasher/*.cachefile
 /BadGuySmasher/BadGuySmasherContent/obj/x86/Debug
 /BadGuySmasher/BadGuySmasher/bin/x86/Debug
