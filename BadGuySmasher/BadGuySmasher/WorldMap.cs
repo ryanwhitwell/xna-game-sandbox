@@ -121,7 +121,7 @@ namespace BadGuySmasher
             collisionResults.X = CollisionResults.Result.TooBig;
             collisionResults.XMove = collisionObjectLeft - spriteRight;
           }
-
+          
           if (spriteTop <= collisionObjectBottom && spriteTop >= collisionObjectTop)
           {
             collisionResults.Y = CollisionResults.Result.TooSmall;

@@ -8,9 +8,9 @@ namespace BadGuySmasher
   {
     string          Id                { get; }
     Texture2D       Texture           { get; }
-    Vector2         Position    { get; }
-    Rectangle       Bounds      { get; }
-    bool            DrawBounds  { get; set; }
+    Vector2         Position          { get; }
+    Rectangle       Bounds            { get; }
+    bool            DrawBounds        { get; set; }
     WorldMap        WorldMap          { get; }
     ContentManager  ContentManager    { get; }
 
