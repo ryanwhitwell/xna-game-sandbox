@@ -26,6 +26,9 @@ namespace BadGuySmasher
     {
       KeyboardState state = Keyboard.GetState();
 
+      float currentX = Position.X;
+      float currentY = Position.Y;
+
       bool keyComboPressed = false;
       
       if (_number == 1)
@@ -106,8 +109,23 @@ namespace BadGuySmasher
             SetYPosition(Position.Y + MoveSpeed);
         }
       }
+
+      CollisionResults results = WorldMap.GetCollisionResults(this);
+
+      if (results.XMove != 0)
+      {
+        SetXPosition(currentX);
+      }
       
-      base.Update(gameTime);
+      if (results.YMove != 0)
+      {
+        SetYPosition(currentY);
+      }
+
+      SetXVelocity(0.0f);
+      SetYVelocity(0.0f);
+      
+      base.UpdateSpriteBounds(Position);
     }
   }
 }

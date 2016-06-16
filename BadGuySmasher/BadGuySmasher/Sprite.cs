@@ -86,6 +86,16 @@ namespace BadGuySmasher
       _position.Y = value;
     }
 
+    public void SetXVelocity(float value)
+    {
+      _velocity.X = value;
+    }
+
+    public void SetYVelocity(float value)
+    {
+      _velocity.Y = value;
+    }
+
     public string Id { get { return _id; } private set { } }
 
     public Rectangle Bounds { get { return _bounds; } }
@@ -283,7 +293,7 @@ namespace BadGuySmasher
       }
     }
 
-    private void UpdateSpriteBounds(Vector2 spritePosition)
+    protected void UpdateSpriteBounds(Vector2 spritePosition)
     {
       _bounds.X = (int)spritePosition.X;
       _bounds.Y = (int)spritePosition.Y;
