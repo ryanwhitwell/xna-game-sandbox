@@ -10,6 +10,8 @@ namespace BadGuySmasher
     public int XMove { get; set; }
     public int YMove { get; set; }
 
+    public ISprite Sprite { get; set; }
+
     public bool Empty { get { return XMove == 0 && YMove == 0; } }
   }
 }

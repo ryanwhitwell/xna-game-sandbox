@@ -16,8 +16,9 @@ namespace BadGuySmasher
     private ContentManager  _contentManager;
     private string          _id;
     private SpriteFont      _spriteFont;
+    SpriteProperties        _spriteProperties;
 
-    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName) : base(graphicsDevice)
+    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName, SpriteProperties spriteProperties) : base(graphicsDevice)
     {
       if (contentManager == null)
       {
@@ -49,19 +50,25 @@ namespace BadGuySmasher
         throw new ArgumentNullException("textureAssetName");
       }
 
-      _texture        = contentManager.Load<Texture2D>(textureAssetName);
-      _graphicsDevice = graphicsDevice;
-      _velocity       = velocity;
-      _position       = position;
-      _bounds         = new Rectangle ((int)(position.X - _texture.Width / 2), (int)(position.Y - _texture.Height / 2), _texture.Width, _texture.Height );
-      _worldMap       = worldMap;
-      _contentManager = contentManager;
-      _id             = Guid.NewGuid().ToString("N");
-      _spriteFont     = _contentManager.Load<SpriteFont>("SpriteFont");
+      _texture          = contentManager.Load<Texture2D>(textureAssetName);
+      _graphicsDevice   = graphicsDevice;
+      _velocity         = velocity;
+      _position         = position;
+      _bounds           = new Rectangle ((int)(position.X - _texture.Width / 2), (int)(position.Y - _texture.Height / 2), _texture.Width, _texture.Height );
+      _worldMap         = worldMap;
+      _contentManager   = contentManager;
+      _id               = Guid.NewGuid().ToString("N");
+      _spriteFont       = _contentManager.Load<SpriteFont>("SpriteFont");
+      _spriteProperties = spriteProperties;
+
+      if (_spriteProperties == null)
+      {
+        _spriteProperties = new SpriteProperties();
+      }
     }
 
-    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, string textureAssetName)
-      :this(contentManager, graphicsDevice, worldMap, new Vector2(0, 0), position, textureAssetName)
+    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, string textureAssetName, SpriteProperties spriteProperties)
+      :this(contentManager, graphicsDevice, worldMap, new Vector2(0, 0), position, textureAssetName, spriteProperties)
     {
     }
 
@@ -78,6 +85,8 @@ namespace BadGuySmasher
     public ContentManager ContentManager { get { return _contentManager; } }
 
     public bool DrawBounds { get; set; }
+
+    public float Squishiness { get { return _spriteProperties.Squishiness; } }
 
     public void Draw(GameTime gameTime)
     {
@@ -98,8 +107,10 @@ namespace BadGuySmasher
         this.Begin();
         string xText = "X:" + this._velocity.X.ToString();
         string yText = "Y:" + this._velocity.Y.ToString();
-        this.DrawString(_spriteFont, xText, new Vector2(_position.X + 10, _position.Y + 10), Color.WhiteSmoke);
-        this.DrawString(_spriteFont, yText, new Vector2(_position.X + 10, _position.Y + 20), Color.WhiteSmoke);
+        string sText = "S:" + this.Squishiness.ToString();
+        this.DrawString(_spriteFont, xText, new Vector2(_position.X + 5, _position.Y + 5), Color.WhiteSmoke);
+        this.DrawString(_spriteFont, yText, new Vector2(_position.X + 5, _position.Y + 15), Color.WhiteSmoke);
+        this.DrawString(_spriteFont, sText, new Vector2(_position.X + 5, _position.Y + 25), Color.WhiteSmoke);
         this.End();
       }
 
@@ -127,26 +138,26 @@ namespace BadGuySmasher
       if (collisionResults.XMove != 0)
       {
         bool velocityPos = _velocity.X > 0;
-        bool movePos = collisionResults.XMove > 0;
+        bool movePos     = collisionResults.XMove > 0;
 
         if (velocityPos != movePos)
         {
           _velocity.X *= -1;
           _position.X = originalPosition.X;
-          changedX = true;
+          changedX    = true;
         }
       } 
 
       if (collisionResults.YMove != 0)
       {
         bool velocityPos = _velocity.Y > 0;
-        bool movePos = collisionResults.YMove > 0;
+        bool movePos     = collisionResults.YMove > 0;
 
         if (velocityPos != movePos)
         {
           _velocity.Y *= -1;
           _position.Y = originalPosition.Y;
-          changedY = true;
+          changedY    = true;
         }
       }
 
@@ -161,6 +172,59 @@ namespace BadGuySmasher
         else if (Math.Abs(collisionResults.YMove) > Math.Abs(collisionResults.XMove))
         {
           _velocity.Y *= -1;
+        }
+      }
+
+      // apply squishiness
+      if (collisionResults.Sprite != null && (changedX || changedY))
+      {
+        float totalSquishy = Squishiness + collisionResults.Sprite.Squishiness;
+
+        bool xPos = _velocity.X > 0;
+        bool yPos = _velocity.Y > 0;
+
+        _velocity.X += xPos ? -totalSquishy : totalSquishy;
+        _velocity.Y += yPos ? -totalSquishy : totalSquishy;
+
+        if (totalSquishy > 0)
+        {
+          if (xPos && _velocity.X < _spriteProperties.MinVelocity.X)
+          {
+            _velocity.X += totalSquishy;
+          }
+          else if (!xPos && _velocity.X > -_spriteProperties.MinVelocity.X)
+          {
+            _velocity.X -= totalSquishy;
+          }
+
+          if (yPos && _velocity.Y < _spriteProperties.MinVelocity.Y)
+          {
+            _velocity.Y += totalSquishy;
+          }
+          else if (!yPos && _velocity.Y > -_spriteProperties.MinVelocity.Y)
+          {
+            _velocity.X -= totalSquishy;
+          }
+        }
+        else if (totalSquishy < 0)
+        {
+          if (xPos && _velocity.X > _spriteProperties.MaxVelocity.X)
+          {
+            _velocity.X += totalSquishy;
+          }
+          else if (!xPos && _velocity.X < -_spriteProperties.MaxVelocity.X)
+          {
+            _velocity.X -= totalSquishy;
+          }
+
+          if (yPos && _velocity.Y > _spriteProperties.MaxVelocity.Y)
+          {
+            _velocity.Y += totalSquishy;
+          }
+          else if (!yPos && _velocity.Y < -_spriteProperties.MaxVelocity.Y)
+          {
+            _velocity.Y -= totalSquishy;
+          }
         }
       }
 
