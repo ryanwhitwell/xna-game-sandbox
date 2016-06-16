@@ -18,7 +18,8 @@ namespace BadGuySmasher
 
     private List<Sprite> _generatedSprites = new List<Sprite>();
 
-    public SpriteGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, int maxBadGuys, int secondsBetweenGeneratons, string generatorTextureAssetName, string spriteTextureAssetName) : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName)
+    public SpriteGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, int maxBadGuys, int secondsBetweenGeneratons, string generatorTextureAssetName, string spriteTextureAssetName) 
+      : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName, new SpriteProperties(5, new Vector2(), new Vector2()))
     {
       if (string.IsNullOrWhiteSpace(spriteTextureAssetName))
       {
@@ -60,7 +61,7 @@ namespace BadGuySmasher
       {
         Vector2 spriteVector    = GetSpriteVector();
         Vector2 spritePosition  = new Vector2(base.Position.X, base.Position.Y);
-        Sprite  generatedSprite = new Sprite(base.ContentManager, base.GraphicsDevice, base.WorldMap, spriteVector, spritePosition, _spriteTextureAssetName);
+        Sprite  generatedSprite = new Sprite(base.ContentManager, base.GraphicsDevice, base.WorldMap, spriteVector, spritePosition, _spriteTextureAssetName, new SpriteProperties(0, new Vector2(250, 250), new Vector2(50, 50)));
 
         generatedSprite.DrawBounds = this.DrawBounds;
 

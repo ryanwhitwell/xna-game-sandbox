@@ -122,7 +122,9 @@ namespace BadGuySmasher
           else if (spriteBottom >= collisionObjectTop && spriteBottom <= collisionObjectBottom)
           {
             collisionResults.YMove = collisionObjectTop - spriteBottom;
-          }          
+          }
+
+          collisionResults.Sprite = thing;
 
           return collisionResults;
         }

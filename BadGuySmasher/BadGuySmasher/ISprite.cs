@@ -13,6 +13,7 @@ namespace BadGuySmasher
     bool            DrawBounds        { get; set; }
     WorldMap        WorldMap          { get; }
     ContentManager  ContentManager    { get; }
+    float           Squishiness       { get; }
 
     void Draw(GameTime gameTime);
     void Update(GameTime gameTime);
