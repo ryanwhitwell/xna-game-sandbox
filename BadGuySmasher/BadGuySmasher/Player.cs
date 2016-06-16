@@ -110,6 +110,8 @@ namespace BadGuySmasher
         }
       }
 
+      UpdateSpriteBounds(Position);
+
       CollisionResults results = WorldMap.GetCollisionResults(this);
 
       if (results.XMove != 0)
