@@ -69,6 +69,16 @@ namespace BadGuySmasher
 
     public Vector2 Position { get { return _position; } }
 
+    public void SetXPosition(float value)
+    {
+      _position.X = value;
+    }
+
+    public void SetYPosition(float value)
+    {
+      _position.Y = value;
+    }
+
     public string Id { get { return _id; } private set { } }
 
     public Rectangle Bounds { get { return _bounds; } }
@@ -102,8 +112,6 @@ namespace BadGuySmasher
         this.DrawString(_spriteFont, yText, new Vector2(_position.X + 10, _position.Y + 20), Color.WhiteSmoke);
         this.End();
       }
-
-
     }
 
     public virtual void Update(GameTime gameTime)

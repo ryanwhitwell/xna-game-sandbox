@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -19,6 +20,7 @@ namespace BadGuySmasher
     WorldMap _worldMap;
 
     SpriteGenerator _badGuyGenerator;
+    PlayerGenerator _playerGenerator;
 
     public BadGuySmasherGame()
     {
@@ -58,8 +60,12 @@ namespace BadGuySmasher
       Vector2 wallPosition = new Vector2(900.0f, 200.0f);
       Sprite wall = new Sprite(this.Content, GraphicsDevice, _worldMap, wallPosition, "wall");
 
+      Vector2 playerGeneratorPosition = new Vector2(200.0f, 600.0f);
+      _playerGenerator = new PlayerGenerator(Content, GraphicsDevice, _worldMap, playerGeneratorPosition, "PlayerGenerator", "player");
+
       _worldMap.Sprites.Add(_badGuyGenerator);
       _worldMap.Sprites.Add(wall);
+      _worldMap.Sprites.Add(_playerGenerator);
     }
 
     /// <summary>
@@ -78,11 +84,9 @@ namespace BadGuySmasher
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      // Allows the game to exit
-      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-        this.Exit();
-
       UpdateInput();
+
+      _playerGenerator.SetNumberOfPlayers(_splashScreen.NumberOfPlayers);
 
       if (gameState == GameState.Game)
       {

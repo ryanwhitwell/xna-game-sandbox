@@ -16,5 +16,7 @@ namespace BadGuySmasher
 
     void Draw(GameTime gameTime);
     void Update(GameTime gameTime);
+    void SetXPosition(float value);
+    void SetYPosition(float value);
   }
 }

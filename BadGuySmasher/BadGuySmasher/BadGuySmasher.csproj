@@ -72,6 +72,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Player.cs" />
+    <Compile Include="PlayerGenerator.cs" />
     <Compile Include="SpriteGenerator.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="CollisionResults.cs" />

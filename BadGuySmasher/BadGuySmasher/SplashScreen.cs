@@ -14,6 +14,7 @@ namespace BadGuySmasher
     GraphicsDeviceManager _graphics;
     State                 _state = State.Showing;
     SpriteBatch           _spriteBatch;
+    int                   _numberOfPlayers = 0;
 
     public enum State
     {
@@ -21,6 +22,8 @@ namespace BadGuySmasher
       Exit,
       Done
     }
+
+    public int NumberOfPlayers { get { return _numberOfPlayers; } }
 
     public SplashScreen(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName)
     {
@@ -55,11 +58,22 @@ namespace BadGuySmasher
 
       KeyboardState newState = Keyboard.GetState();
 
-      if (newState.IsKeyUp(Keys.Space))
+      if (newState.IsKeyUp(Keys.D1))
       {
         // If not down last update, key has just been pressed.
-        if (_lastKeyboardState.IsKeyDown(Keys.Space))
+        if (_lastKeyboardState.IsKeyDown(Keys.D1))
         {
+          _numberOfPlayers = 1;
+          _state = State.Exit;
+        }
+      }
+      
+      if (newState.IsKeyUp(Keys.D2))
+      {
+        // If not down last update, key has just been pressed.
+        if (_lastKeyboardState.IsKeyDown(Keys.D2))
+        {
+          _numberOfPlayers = 2;
           _state = State.Exit;
         }
       }
@@ -77,7 +91,7 @@ namespace BadGuySmasher
       string text = "Bad Guy Smasher";
       _spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2), Color.Black);
 
-      text = "Press the space bar to begin.";
+      text = "Please select a number of Players to continue (1 or 2)";
       _spriteBatch.DrawString(_titleFont, text, new Vector2(_graphics.GraphicsDevice.Viewport.Width / 2 - _titleFont.MeasureString(text).Length() / 2, _graphics.GraphicsDevice.Viewport.Height / 2 + _titleFont.LineSpacing), Color.Black);
 
       _spriteBatch.End();
