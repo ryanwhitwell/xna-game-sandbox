@@ -1,2 +1,0 @@
-C:\Dev\BadGuySmasher\BadGuySmasher\BadGuySmasherContent\obj\x86\Debug\BadGuySmasherContent.contentprojResolveAssemblyReference.cache
-C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasherContent\obj\x86\Debug\BadGuySmasherContent.contentprojResolveAssemblyReference.cache

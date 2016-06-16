@@ -15,6 +15,7 @@ namespace BadGuySmasher
     private WorldMap        _worldMap;
     private ContentManager  _contentManager;
     private string          _id;
+    private SpriteFont      _spriteFont;
 
     public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName) : base(graphicsDevice)
     {
@@ -56,42 +57,12 @@ namespace BadGuySmasher
       _worldMap       = worldMap;
       _contentManager = contentManager;
       _id             = Guid.NewGuid().ToString("N");
+      _spriteFont     = _contentManager.Load<SpriteFont>("SpriteFont");
     }
 
-    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, string textureAssetName) : base(graphicsDevice)
+    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, string textureAssetName)
+      :this(contentManager, graphicsDevice, worldMap, new Vector2(0, 0), position, textureAssetName)
     {
-      if (contentManager == null)
-      {
-        throw new ArgumentNullException("contentManager");
-      }
-
-      if (graphicsDevice == null)
-      {
-        throw new ArgumentNullException("graphicsDevice");
-      }
-
-      if (position == null)
-      {
-        throw new ArgumentNullException("position");
-      }
-
-      if (worldMap == null)
-      {
-        throw new ArgumentNullException("worldMap");
-      }
-
-      if (string.IsNullOrWhiteSpace(textureAssetName))
-      {
-        throw new ArgumentNullException("textureAssetName");
-      }
-
-      _texture        = contentManager.Load<Texture2D>(textureAssetName);
-      _graphicsDevice = graphicsDevice;
-      _position       = position;
-      _bounds         = new Rectangle ((int)(position.X - _texture.Width / 2), (int)(position.Y - _texture.Height / 2), _texture.Width, _texture.Height );
-      _worldMap       = worldMap;
-      _contentManager = contentManager;
-      _id             = Guid.NewGuid().ToString("N");
     }
 
     public Texture2D Texture { get { return _texture; } private set { } }
@@ -122,6 +93,13 @@ namespace BadGuySmasher
         this.GraphicsDevice.RasterizerState = state;
 
         this.Draw(_texture, _position, Color.White);
+        this.End();
+
+        this.Begin();
+        string xText = "X:" + this._velocity.X.ToString();
+        string yText = "Y:" + this._velocity.Y.ToString();
+        this.DrawString(_spriteFont, xText, new Vector2(_position.X + 10, _position.Y + 10), Color.WhiteSmoke);
+        this.DrawString(_spriteFont, yText, new Vector2(_position.X + 10, _position.Y + 20), Color.WhiteSmoke);
         this.End();
       }
 
