@@ -63,6 +63,7 @@ namespace BadGuySmasher
 
       Vector2 playerGeneratorPosition = new Vector2(200.0f, 600.0f);
       _playerGenerator = new PlayerGenerator(Content, GraphicsDevice, _worldMap, playerGeneratorPosition, "PlayerGenerator", "player");
+      _playerGenerator.DrawBounds = true;
 
       _worldMap.Sprites.Add(_badGuyGenerator);
       _worldMap.Sprites.Add(wall);

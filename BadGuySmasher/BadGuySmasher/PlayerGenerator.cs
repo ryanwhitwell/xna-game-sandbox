@@ -12,7 +12,7 @@ namespace BadGuySmasher
     private ICollection<Player> _players;
     private int                 _numberOfPlayers;
   
-    public PlayerGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, string generatorTextureAssetName, string playerTextureAssetName) : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName)
+    public PlayerGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, string generatorTextureAssetName, string playerTextureAssetName) : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName, null)
     {
       if (string.IsNullOrWhiteSpace(playerTextureAssetName))
       {
@@ -38,6 +38,7 @@ namespace BadGuySmasher
         for (int i = 1; i <= _numberOfPlayers; i++)
         {
           Player newPlayer = new Player(ContentManager, GraphicsDevice, WorldMap, Position, _playerTextureAssetName, i);
+          newPlayer.DrawBounds = DrawBounds;
           _players.Add(newPlayer);
           WorldMap.Sprites.Add(newPlayer);
         }
