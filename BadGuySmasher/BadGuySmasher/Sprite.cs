@@ -128,15 +128,6 @@ namespace BadGuySmasher
 
     }
 
-    private enum Direction
-    {
-      None,
-      North,
-      South,
-      East,
-      West
-    }
-
     public virtual void Update(GameTime gameTime)
     {
       if (_velocity == null)
@@ -154,26 +145,6 @@ namespace BadGuySmasher
 
       bool changedX = false;
       bool changedY = false;
-      Direction xDirection = Direction.None;
-      Direction yDirection = Direction.None;
-
-      if (_velocity.X > 0)
-      {
-        xDirection = Direction.East;
-      }
-      else if (_velocity.X < 0)
-      {
-        xDirection = Direction.West;
-      }
-
-      if (_velocity.Y > 0)
-      {
-        yDirection = Direction.South;
-      }
-      else if (_velocity.Y < 0)
-      {
-        yDirection = Direction.North;
-      }
 
       if (collisionResults.XMove != 0)
       {
@@ -201,6 +172,8 @@ namespace BadGuySmasher
         }
       }
 
+      // If we are trying to change both the X and Y direction, see where we collided the most
+      // and only change that direction.
       if (changedX && changedY)
       {
         if (Math.Abs(collisionResults.XMove) > Math.Abs(collisionResults.YMove))

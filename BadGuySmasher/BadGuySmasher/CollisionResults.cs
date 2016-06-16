@@ -7,19 +7,9 @@ namespace BadGuySmasher
 {
   public class CollisionResults
   {
-    public Result X { get; set; }
-    public Result Y { get; set; }
-
     public int XMove { get; set; }
     public int YMove { get; set; }
 
-    public enum Result
-    {
-      None,
-      TooBig,
-      TooSmall
-    }
-
-    public bool Empty { get { return X == Result.None && Y == Result.None; } }
+    public bool Empty { get { return XMove == 0 && YMove == 0; } }
   }
 }

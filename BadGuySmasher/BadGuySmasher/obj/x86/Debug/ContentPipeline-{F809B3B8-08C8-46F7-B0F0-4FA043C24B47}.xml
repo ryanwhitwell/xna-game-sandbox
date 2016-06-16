@@ -11,15 +11,6 @@
       <Time>2016-06-01T17:21:53.3438577-05:00</Time>
     </Item>
     <Item>
-      <Source>basicbadguy.png</Source>
-      <Name>basicbadguy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\basicbadguy.xnb</Output>
-      <Time>2016-06-02T09:13:00.0182078-05:00</Time>
-    </Item>
-    <Item>
       <Source>BadGuyGenerator.png</Source>
       <Name>BadGuyGenerator</Name>
       <Importer>TextureImporter</Importer>
@@ -36,15 +27,6 @@
       <Options>None</Options>
       <Output>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\badguy.xnb</Output>
       <Time>2016-06-02T10:41:35.4956233-05:00</Time>
-    </Item>
-    <Item>
-      <Source>advancedbadguy.png</Source>
-      <Name>advancedbadguy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\BadGuySmasher\BadGuySmasher\BadGuySmasher\bin\x86\Debug\Content\advancedbadguy.xnb</Output>
-      <Time>2016-06-02T14:11:43.6033315-05:00</Time>
     </Item>
     <Item>
       <Source>wall.png</Source>

@@ -22,7 +22,6 @@ namespace BadGuySmasher
     public ICollection<ISprite> Sprites
     {
       get { return _sprites; }
-      private set { }
     }
 
     public void DrawSprites(GameTime gameTime)
@@ -53,23 +52,19 @@ namespace BadGuySmasher
 
       if (spriteBounds.X < MinX)
       {
-        collisionResults.X = CollisionResults.Result.TooSmall;
         collisionResults.XMove = MinX - spriteBounds.X;
       }
       else if(spriteBounds.X > MaxX)
       {
-        collisionResults.X = CollisionResults.Result.TooBig;
         collisionResults.XMove = MaxX - spriteBounds.X;
       }
       
       if(spriteBounds.Y < MinY)
       {
-        collisionResults.Y = CollisionResults.Result.TooSmall;
         collisionResults.YMove = MinY - spriteBounds.Y;
       }
       else if(spriteBounds.Y > MaxY)
       {
-        collisionResults.Y = CollisionResults.Result.TooBig;
         collisionResults.YMove = MaxY - spriteBounds.Y;
       }
 
@@ -99,37 +94,33 @@ namespace BadGuySmasher
       {
         if (sprite.Bounds.Intersects(thing.Bounds))
         {
-          int spriteLeft = sprite.Bounds.Left;
+          int spriteLeft  = sprite.Bounds.Left;
           int spriteRight = sprite.Bounds.Right;
 
-          int collisionObjectLeft = thing.Bounds.Left;
+          int collisionObjectLeft  = thing.Bounds.Left;
           int collisionObjectRight = thing.Bounds.Right;
 
-          int spriteTop = sprite.Bounds.Top;
+          int spriteTop    = sprite.Bounds.Top;
           int spriteBottom = sprite.Bounds.Bottom;
 
-          int collisionObjectTop = thing.Bounds.Top;
+          int collisionObjectTop    = thing.Bounds.Top;
           int collisionObjectBottom = thing.Bounds.Bottom;
 
           if (spriteLeft >= collisionObjectLeft && spriteLeft <= collisionObjectRight)
           {
-            collisionResults.X = CollisionResults.Result.TooSmall;
             collisionResults.XMove  = collisionObjectRight - spriteLeft;
           }
           else if (spriteRight >= collisionObjectLeft && spriteRight <= collisionObjectRight)
           {
-            collisionResults.X = CollisionResults.Result.TooBig;
             collisionResults.XMove = collisionObjectLeft - spriteRight;
           }
           
           if (spriteTop <= collisionObjectBottom && spriteTop >= collisionObjectTop)
           {
-            collisionResults.Y = CollisionResults.Result.TooSmall;
              collisionResults.YMove = collisionObjectBottom - spriteTop;
           }
           else if (spriteBottom >= collisionObjectTop && spriteBottom <= collisionObjectBottom)
           {
-            collisionResults.Y = CollisionResults.Result.TooBig;
             collisionResults.YMove = collisionObjectTop - spriteBottom;
           }          
 
