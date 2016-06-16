@@ -188,47 +188,91 @@ namespace BadGuySmasher
 
         if (totalSquishy > 0)
         {
-          if (xPos && _velocity.X < _spriteProperties.MinVelocity.X)
+          if (XTooSlow || YTooSlow)
           {
-            _velocity.X += totalSquishy;
-          }
-          else if (!xPos && _velocity.X > -_spriteProperties.MinVelocity.X)
-          {
-            _velocity.X -= totalSquishy;
-          }
-
-          if (yPos && _velocity.Y < _spriteProperties.MinVelocity.Y)
-          {
-            _velocity.Y += totalSquishy;
-          }
-          else if (!yPos && _velocity.Y > -_spriteProperties.MinVelocity.Y)
-          {
-            _velocity.X -= totalSquishy;
+            SpeedUpX(Math.Abs(totalSquishy));
+            SpeedUpY(Math.Abs(totalSquishy));
           }
         }
         else if (totalSquishy < 0)
         {
-          if (xPos && _velocity.X > _spriteProperties.MaxVelocity.X)
+          if (XTooFast || YTooFast)
           {
-            _velocity.X += totalSquishy;
-          }
-          else if (!xPos && _velocity.X < -_spriteProperties.MaxVelocity.X)
-          {
-            _velocity.X -= totalSquishy;
-          }
-
-          if (yPos && _velocity.Y > _spriteProperties.MaxVelocity.Y)
-          {
-            _velocity.Y += totalSquishy;
-          }
-          else if (!yPos && _velocity.Y < -_spriteProperties.MaxVelocity.Y)
-          {
-            _velocity.Y -= totalSquishy;
+            SlowDownX(Math.Abs(totalSquishy));
+            SlowDownY(Math.Abs(totalSquishy));
           }
         }
       }
 
       UpdateSpriteBounds(_position);
+    }
+
+    private bool XTooFast
+    {
+      get { return _velocity.X > 0 ? _velocity.X > _spriteProperties.MaxVelocity.X : _velocity.X < -_spriteProperties.MaxVelocity.X; }
+    }
+
+    private bool XTooSlow
+    {
+      get { return _velocity.X > 0 ? _velocity.X < _spriteProperties.MinVelocity.X : _velocity.X > -_spriteProperties.MinVelocity.X; }
+    }
+
+    private bool YTooFast
+    {
+      get { return _velocity.Y > 0 ? _velocity.Y > _spriteProperties.MaxVelocity.Y : _velocity.Y < -_spriteProperties.MaxVelocity.Y; }
+    }
+
+    private bool YTooSlow
+    {
+      get { return _velocity.Y > 0 ? _velocity.Y < _spriteProperties.MinVelocity.Y : _velocity.Y > -_spriteProperties.MinVelocity.Y; }
+    }
+
+    private void SlowDownX(float decrease)
+    {
+      if (_velocity.X >= 0)
+      {
+        _velocity.X -= decrease;
+      }
+      else
+      {
+        _velocity.X += decrease;
+      }
+    }
+
+    private void SlowDownY(float decrease)
+    {
+      if (_velocity.Y >= 0)
+      {
+        _velocity.Y -= decrease;
+      }
+      else
+      {
+        _velocity.Y += decrease;
+      }
+    }
+
+    private void SpeedUpX(float increase)
+    {
+      if (_velocity.X >= 0)
+      {
+        _velocity.X += increase;
+      }
+      else
+      {
+        _velocity.X -= increase;
+      }
+    }
+
+    private void SpeedUpY(float increase)
+    {
+      if (_velocity.Y >= 0)
+      {
+        _velocity.Y += increase;
+      }
+      else
+      {
+        _velocity.Y -= increase;
+      }
     }
 
     private void UpdateSpriteBounds(Vector2 spritePosition)
