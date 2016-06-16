@@ -96,17 +96,12 @@ namespace BadGuySmasher
       _velocity.Y = value;
     }
 
-    public string Id { get { return _id; } private set { } }
-
-    public Rectangle Bounds { get { return _bounds; } }
-
-    public WorldMap WorldMap { get { return _worldMap; } }
-
+    public string         Id             { get { return _id; } }
+    public Rectangle      Bounds         { get { return _bounds; } }
+    public WorldMap       WorldMap       { get { return _worldMap; } }
     public ContentManager ContentManager { get { return _contentManager; } }
-
-    public bool DrawBounds { get; set; }
-
-    public float Squishiness { get { return _spriteProperties.Squishiness; } }
+    public bool           DrawBounds     { get; set; }
+    public float          Squishiness    { get { return _spriteProperties.Squishiness; } }
 
     public void Draw(GameTime gameTime)
     {
@@ -117,10 +112,9 @@ namespace BadGuySmasher
       if (DrawBounds)
       {
         this.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
-        RasterizerState state = new RasterizerState();
-        state.FillMode = FillMode.WireFrame;
+        RasterizerState state               = new RasterizerState();
+        state.FillMode                      = FillMode.WireFrame;
         this.GraphicsDevice.RasterizerState = state;
-
         this.Draw(_texture, _position, Color.White);
         this.End();
 
@@ -142,9 +136,9 @@ namespace BadGuySmasher
         return;
       }
       
-      //Move the sprite by speed, scaled by elapsed time.
       Vector2 originalPosition = _position;
 
+      // Move the sprite by speed, scaled by elapsed time.
       _position += _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
       UpdateSpriteBounds(_position);
 
@@ -198,26 +192,34 @@ namespace BadGuySmasher
       {
         float totalSquishy = Squishiness + collisionResults.Sprite.Squishiness;
 
-        bool xPos = _velocity.X > 0;
-        bool yPos = _velocity.Y > 0;
+        bool  speedUp         = totalSquishy < 0;
+        float absTotalSquishy = Math.Abs(totalSquishy);
 
-        _velocity.X += xPos ? -totalSquishy : totalSquishy;
-        _velocity.Y += yPos ? -totalSquishy : totalSquishy;
+        if (speedUp)
+        {
+          SpeedUpX(absTotalSquishy);
+          SpeedUpY(absTotalSquishy);
+        }
+        else
+        {
+          SlowDownX(absTotalSquishy);
+          SlowDownY(absTotalSquishy);
+        }
 
         if (totalSquishy > 0)
         {
           if (XTooSlow || YTooSlow)
           {
-            SpeedUpX(Math.Abs(totalSquishy));
-            SpeedUpY(Math.Abs(totalSquishy));
+            SpeedUpX(absTotalSquishy);
+            SpeedUpY(absTotalSquishy);
           }
         }
         else if (totalSquishy < 0)
         {
           if (XTooFast || YTooFast)
           {
-            SlowDownX(Math.Abs(totalSquishy));
-            SlowDownY(Math.Abs(totalSquishy));
+            SlowDownX(absTotalSquishy);
+            SlowDownY(absTotalSquishy);
           }
         }
       }
