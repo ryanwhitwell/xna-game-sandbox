@@ -141,18 +141,7 @@ namespace BadGuySmasher
         state.FillMode                      = FillMode.WireFrame;
         this.GraphicsDevice.RasterizerState = state;
 
-        if (_rotation != 0)
-        {
-          Vector2 textureCenter = new Vector2(_texture.Width / 2, _texture.Height / 2);
-          Vector2 drawPosition = _position;
-          drawPosition.X += _texture.Width/2;
-          drawPosition.Y += _texture.Height/2;
-          this.Draw(_texture, drawPosition, null, Color.White, _rotation, textureCenter, 1.0f, SpriteEffects.None, 0.0f);
-        }
-        else
-        {
-          this.Draw(_texture, _position, Color.White);
-        }
+        this.Draw(_texture, _position, Color.White);
 
         this.End();
 
