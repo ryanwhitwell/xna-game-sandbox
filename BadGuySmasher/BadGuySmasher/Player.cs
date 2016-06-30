@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +8,8 @@ namespace BadGuySmasher
 {
   public class Player : Sprite
   {
-    private const int MoveSpeed = 5;
+    private const int   MoveSpeed     = 5;
+    private const float RotationSpeed = 0.1f;
     
     private int _number = 0;
     
@@ -22,7 +20,7 @@ namespace BadGuySmasher
 
     public int Number { get { return _number; } }
 
-    private void MoveForward(GameTime gameTime)
+    private void MoveForward()
     {
       Vector2 direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
 
@@ -31,7 +29,7 @@ namespace BadGuySmasher
       Position += direction * MoveSpeed;
     }
 
-    private void MoveBackward(GameTime gameTime)
+    private void MoveBackward()
     {
       Vector2 direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
 
@@ -40,18 +38,18 @@ namespace BadGuySmasher
       Position -= direction * MoveSpeed;
     }
 
-    private void MoveLeft(GameTime gameTime)
+    private void MoveLeft()
     {
-      Vector2 direction = new Vector2((float)Math.Cos(Rotation - 90) * (float)(Math.PI / -180.0), (float)Math.Sin(Rotation - 90) * (float)(Math.PI / -180.0));
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation - 90), (float)Math.Sin(Rotation - 90));
 
       direction.Normalize();
 
       Position += direction * MoveSpeed;
     }
 
-    private void MoveRight(GameTime gameTime)
+    private void MoveRight()
     {
-      Vector2 direction = new Vector2((float)Math.Cos(Rotation + 90) * (float)(Math.PI / -180.0), (float)Math.Sin(Rotation + 90)* (float)(Math.PI / -180.0));
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation + 90), (float)Math.Sin(Rotation + 90));
 
       direction.Normalize();
 
@@ -64,96 +62,62 @@ namespace BadGuySmasher
 
       float currentX = Position.X;
       float currentY = Position.Y;
-
-      bool movementKeyComboPressed = false;
       
       if (_number == 1)
       {
-        if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.W))
+        if (state.IsKeyDown(Keys.D))
         {
-          //SetXPosition(Position.X + MoveSpeed);
-          //SetYPosition(Position.Y - MoveSpeed);
-          movementKeyComboPressed = true;
-        }
-        if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.W))
-        {
-          //SetXPosition(Position.X - MoveSpeed);
-          //SetYPosition(Position.Y - MoveSpeed);
-          movementKeyComboPressed = true;
-        }
-        if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.S))
-        {
-          //SetXPosition(Position.X - MoveSpeed);
-          //SetYPosition(Position.Y + MoveSpeed);
-          movementKeyComboPressed = true;
-        }
-        if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.S))
-        {
-          //SetXPosition(Position.X + MoveSpeed);
-          //SetYPosition(Position.Y + MoveSpeed);
-          movementKeyComboPressed = true;
+          MoveRight();
         }
 
-        if (!movementKeyComboPressed)
+        if (state.IsKeyDown(Keys.A))
         {
-          if (state.IsKeyDown(Keys.D))
-          {
-            MoveRight(gameTime);
-            //SetXPosition(Position.X + MoveSpeed);
-          }
+          MoveLeft();
+        }
 
-          if (state.IsKeyDown(Keys.A))
-          {
-            MoveLeft(gameTime);
-            //SetXPosition(Position.X - MoveSpeed);
-          }
+        if (state.IsKeyDown(Keys.W))
+        {
+          MoveForward();
+        }
 
-          if (state.IsKeyDown(Keys.W))
-          {
-            //SetYPosition(Position.Y - MoveSpeed);
-            MoveForward(gameTime);
-          }
-
-          if (state.IsKeyDown(Keys.S))
-          {
-            //SetYPosition(Position.Y + MoveSpeed);
-            MoveBackward(gameTime);
-          }
+        if (state.IsKeyDown(Keys.S))
+        {
+          MoveBackward();
         }
 
         bool rotationKeyComboPressed = false;
 
         if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Up))
         {
-          Rotation += 0.1f;
+          Rotation += RotationSpeed;
           rotationKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Up))
         {
-          Rotation -= 0.1f;
+          Rotation -= RotationSpeed;
           rotationKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Down))
         {
-          Rotation -= 0.1f;
+          Rotation -= RotationSpeed;
           rotationKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Down))
         {
-          Rotation += 0.1f;
+          Rotation += RotationSpeed;
           rotationKeyComboPressed = true;
         }
         
         if (!rotationKeyComboPressed)
         {
           if (state.IsKeyDown(Keys.Right))
-            Rotation += 0.1f;
+            Rotation += RotationSpeed;
           if (state.IsKeyDown(Keys.Left))
-            Rotation -= 0.1f;
+            Rotation -= RotationSpeed;
           if (state.IsKeyDown(Keys.Up))
-            Rotation += 0.1f;
+            Rotation += RotationSpeed;
           if (state.IsKeyDown(Keys.Down))
-            Rotation -= 0.1f;
+            Rotation -= RotationSpeed;
         }
       }
 
