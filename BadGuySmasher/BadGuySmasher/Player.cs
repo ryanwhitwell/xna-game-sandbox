@@ -22,6 +22,42 @@ namespace BadGuySmasher
 
     public int Number { get { return _number; } }
 
+    private void MoveForward(GameTime gameTime)
+    {
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
+
+      direction.Normalize();
+
+      Position += direction * MoveSpeed;
+    }
+
+    private void MoveBackward(GameTime gameTime)
+    {
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
+
+      direction.Normalize();
+
+      Position -= direction * MoveSpeed;
+    }
+
+    private void MoveLeft(GameTime gameTime)
+    {
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation - 90) * (float)(Math.PI / -180.0), (float)Math.Sin(Rotation - 90) * (float)(Math.PI / -180.0));
+
+      direction.Normalize();
+
+      Position += direction * MoveSpeed;
+    }
+
+    private void MoveRight(GameTime gameTime)
+    {
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation + 90) * (float)(Math.PI / -180.0), (float)Math.Sin(Rotation + 90)* (float)(Math.PI / -180.0));
+
+      direction.Normalize();
+
+      Position += direction * MoveSpeed;
+    }
+
     public override void Update(GameTime gameTime)
     {
       KeyboardState state = Keyboard.GetState();
@@ -29,84 +65,95 @@ namespace BadGuySmasher
       float currentX = Position.X;
       float currentY = Position.Y;
 
-      bool keyComboPressed = false;
+      bool movementKeyComboPressed = false;
       
       if (_number == 1)
       {
         if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.W))
         {
-          SetXPosition(Position.X + MoveSpeed);
-          SetYPosition(Position.Y - MoveSpeed);
-          keyComboPressed = true;
+          //SetXPosition(Position.X + MoveSpeed);
+          //SetYPosition(Position.Y - MoveSpeed);
+          movementKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.W))
         {
-          SetXPosition(Position.X - MoveSpeed);
-          SetYPosition(Position.Y - MoveSpeed);
-          keyComboPressed = true;
+          //SetXPosition(Position.X - MoveSpeed);
+          //SetYPosition(Position.Y - MoveSpeed);
+          movementKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.S))
         {
-          SetXPosition(Position.X - MoveSpeed);
-          SetYPosition(Position.Y + MoveSpeed);
-          keyComboPressed = true;
+          //SetXPosition(Position.X - MoveSpeed);
+          //SetYPosition(Position.Y + MoveSpeed);
+          movementKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.S))
         {
-          SetXPosition(Position.X + MoveSpeed);
-          SetYPosition(Position.Y + MoveSpeed);
-          keyComboPressed = true;
+          //SetXPosition(Position.X + MoveSpeed);
+          //SetYPosition(Position.Y + MoveSpeed);
+          movementKeyComboPressed = true;
         }
 
-        if (!keyComboPressed)
+        if (!movementKeyComboPressed)
         {
           if (state.IsKeyDown(Keys.D))
-            SetXPosition(Position.X + MoveSpeed);
-          if (state.IsKeyDown(Keys.A))
-            SetXPosition(Position.X - MoveSpeed);
-          if (state.IsKeyDown(Keys.W))
-            SetYPosition(Position.Y - MoveSpeed);
-          if (state.IsKeyDown(Keys.S))
-            SetYPosition(Position.Y + MoveSpeed);
+          {
+            MoveRight(gameTime);
+            //SetXPosition(Position.X + MoveSpeed);
           }
-      }
-      else if (_number == 2)
-      {
+
+          if (state.IsKeyDown(Keys.A))
+          {
+            MoveLeft(gameTime);
+            //SetXPosition(Position.X - MoveSpeed);
+          }
+
+          if (state.IsKeyDown(Keys.W))
+          {
+            //SetYPosition(Position.Y - MoveSpeed);
+            MoveForward(gameTime);
+          }
+
+          if (state.IsKeyDown(Keys.S))
+          {
+            //SetYPosition(Position.Y + MoveSpeed);
+            MoveBackward(gameTime);
+          }
+        }
+
+        bool rotationKeyComboPressed = false;
+
         if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Up))
         {
-          SetXPosition(Position.X + MoveSpeed);
-          SetYPosition(Position.Y - MoveSpeed);
-          keyComboPressed = true;
+          Rotation += 0.1f;
+          rotationKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Up))
         {
-          SetXPosition(Position.X - MoveSpeed);
-          SetYPosition(Position.Y - MoveSpeed);
-          keyComboPressed = true;
+          Rotation -= 0.1f;
+          rotationKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Down))
         {
-          SetXPosition(Position.X - MoveSpeed);
-          SetYPosition(Position.Y + MoveSpeed);
-          keyComboPressed = true;
+          Rotation -= 0.1f;
+          rotationKeyComboPressed = true;
         }
         if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Down))
         {
-          SetXPosition(Position.X + MoveSpeed);
-          SetYPosition(Position.Y + MoveSpeed);
-          keyComboPressed = true;
+          Rotation += 0.1f;
+          rotationKeyComboPressed = true;
         }
         
-        if (!keyComboPressed)
+        if (!rotationKeyComboPressed)
         {
           if (state.IsKeyDown(Keys.Right))
-            SetXPosition(Position.X + MoveSpeed);
+            Rotation += 0.1f;
           if (state.IsKeyDown(Keys.Left))
-            SetXPosition(Position.X - MoveSpeed);
+            Rotation -= 0.1f;
           if (state.IsKeyDown(Keys.Up))
-            SetYPosition(Position.Y - MoveSpeed);
+            Rotation += 0.1f;
           if (state.IsKeyDown(Keys.Down))
-            SetYPosition(Position.Y + MoveSpeed);
+            Rotation -= 0.1f;
         }
       }
 

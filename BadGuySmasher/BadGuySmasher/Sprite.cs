@@ -7,16 +7,17 @@ namespace BadGuySmasher
 {
   public class Sprite : SpriteBatch, ISprite
   {
-    private Texture2D       _texture;
-    private GraphicsDevice  _graphicsDevice;
-    private Vector2         _position;
-    private Vector2         _velocity;
-    private Rectangle       _bounds;
-    private WorldMap        _worldMap;
-    private ContentManager  _contentManager;
-    private string          _id;
-    private SpriteFont      _spriteFont;
-    SpriteProperties        _spriteProperties;
+    private Texture2D         _texture;
+    private GraphicsDevice    _graphicsDevice;
+    private Vector2           _position;
+    private Vector2           _velocity;
+    private Rectangle         _bounds;
+    private WorldMap          _worldMap;
+    private ContentManager    _contentManager;
+    private string            _id;
+    private SpriteFont        _spriteFont;
+    private float             _rotation;
+    public  SpriteProperties  _spriteProperties;
 
     public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName, SpriteProperties spriteProperties) : base(graphicsDevice)
     {
@@ -60,7 +61,7 @@ namespace BadGuySmasher
       _id               = Guid.NewGuid().ToString("N");
       _spriteFont       = _contentManager.Load<SpriteFont>("SpriteFont");
       _spriteProperties = spriteProperties;
-
+ 
       if (_spriteProperties == null)
       {
         _spriteProperties = new SpriteProperties();
@@ -74,7 +75,11 @@ namespace BadGuySmasher
 
     public Texture2D Texture { get { return _texture; } private set { } }
 
-    public Vector2 Position { get { return _position; } }
+    public Vector2 Position 
+    { 
+      get { return _position; }
+      set { _position = value; }
+    }
 
     public void SetXPosition(float value)
     {
@@ -96,6 +101,13 @@ namespace BadGuySmasher
       _velocity.Y = value;
     }
 
+    public float Rotation
+    {
+      get { return _rotation; }
+      set { _rotation = value; }
+    }
+
+
     public string         Id             { get { return _id; } }
     public Rectangle      Bounds         { get { return _bounds; } }
     public WorldMap       WorldMap       { get { return _worldMap; } }
@@ -106,7 +118,20 @@ namespace BadGuySmasher
     public void Draw(GameTime gameTime)
     {
       this.Begin();
-      this.Draw(_texture, _position, Color.White);
+
+      if (_rotation != 0)
+      {
+        Vector2 textureCenter = new Vector2(_texture.Width / 2, _texture.Height / 2);
+        Vector2 drawPosition = _position;
+        drawPosition.X += _texture.Width/2;
+        drawPosition.Y += _texture.Height/2;
+        this.Draw(_texture, drawPosition, null, Color.White, _rotation, textureCenter, 1.0f, SpriteEffects.None, 0.0f);
+      }
+      else
+      {
+        this.Draw(_texture, _position, Color.White);
+      }
+      
       this.End();
 
       if (DrawBounds)
@@ -115,7 +140,20 @@ namespace BadGuySmasher
         RasterizerState state               = new RasterizerState();
         state.FillMode                      = FillMode.WireFrame;
         this.GraphicsDevice.RasterizerState = state;
-        this.Draw(_texture, _position, Color.White);
+
+        if (_rotation != 0)
+        {
+          Vector2 textureCenter = new Vector2(_texture.Width / 2, _texture.Height / 2);
+          Vector2 drawPosition = _position;
+          drawPosition.X += _texture.Width/2;
+          drawPosition.Y += _texture.Height/2;
+          this.Draw(_texture, drawPosition, null, Color.White, _rotation, textureCenter, 1.0f, SpriteEffects.None, 0.0f);
+        }
+        else
+        {
+          this.Draw(_texture, _position, Color.White);
+        }
+
         this.End();
 
         this.Begin();
@@ -140,6 +178,7 @@ namespace BadGuySmasher
 
       // Move the sprite by speed, scaled by elapsed time.
       _position += _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+      
       UpdateSpriteBounds(_position);
 
       CollisionResults collisionResults = _worldMap.GetCollisionResults(this);
