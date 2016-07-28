@@ -18,7 +18,24 @@ namespace BadGuySmasher
       _number = playerNumber;
     }
 
+    private static float GetStrafeDirection() 
+    { 
+      return (90.05f - ((90.0f / 2) / 2));
+    }
+
     public int Number { get { return _number; } }
+
+    public override void Update(GameTime gameTime)
+    {
+      KeyboardState state = Keyboard.GetState();
+
+      float currentX = Position.X;
+      float currentY = Position.Y;
+
+      HandleMovement(state);
+
+      HandleCollision(currentX, currentY);
+    }
 
     private void MoveForward()
     {
@@ -40,7 +57,7 @@ namespace BadGuySmasher
 
     private void MoveLeft()
     {
-      Vector2 direction = new Vector2((float)Math.Cos(Rotation - 90), (float)Math.Sin(Rotation - 90));
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation + GetStrafeDirection()), (float)Math.Sin(Rotation + GetStrafeDirection()));
 
       direction.Normalize();
 
@@ -49,20 +66,35 @@ namespace BadGuySmasher
 
     private void MoveRight()
     {
-      Vector2 direction = new Vector2((float)Math.Cos(Rotation + 90), (float)Math.Sin(Rotation + 90));
+      Vector2 direction = new Vector2((float)Math.Cos(Rotation - GetStrafeDirection()), (float)Math.Sin(Rotation - GetStrafeDirection()));
 
       direction.Normalize();
 
       Position += direction * MoveSpeed;
     }
 
-    public override void Update(GameTime gameTime)
+    private void HandleCollision(float currentX, float currentY)
     {
-      KeyboardState state = Keyboard.GetState();
+      CollisionResults results = WorldMap.GetCollisionResults(this);
 
-      float currentX = Position.X;
-      float currentY = Position.Y;
+      if (results.XMove != 0)
+      {
+        SetXPosition(currentX);
+      }
       
+      if (results.YMove != 0)
+      {
+        SetYPosition(currentY);
+      }
+
+      SetXVelocity(0.0f);
+      SetYVelocity(0.0f);
+      
+      UpdateSpriteBounds(Position);
+    }
+
+    private void HandleMovement(KeyboardState state)
+    {
       if (_number == 1)
       {
         if (state.IsKeyDown(Keys.D))
@@ -122,23 +154,6 @@ namespace BadGuySmasher
       }
 
       UpdateSpriteBounds(Position);
-
-      CollisionResults results = WorldMap.GetCollisionResults(this);
-
-      if (results.XMove != 0)
-      {
-        SetXPosition(currentX);
-      }
-      
-      if (results.YMove != 0)
-      {
-        SetYPosition(currentY);
-      }
-
-      SetXVelocity(0.0f);
-      SetYVelocity(0.0f);
-      
-      base.UpdateSpriteBounds(Position);
     }
   }
 }
