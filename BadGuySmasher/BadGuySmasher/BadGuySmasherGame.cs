@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using BadGuySmasher.Sprites;
+using BadGuySmasher.Sprites.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -53,11 +55,11 @@ namespace BadGuySmasher
     protected override void LoadContent()
     {
       Vector2 badGuyGeneratorPosition   = new Vector2(300.0f, 300.0f);
-      SpriteGenerator _badGuyGenerator  = new SpriteGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 50, 1, "BadGuyGenerator", "badguy");
+      SpriteGenerator _badGuyGenerator  = new SpriteGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 25, 1, "BadGuyGenerator", "badguy");
       _badGuyGenerator.DrawBounds = true;
 
-      Vector2 wallPosition = new Vector2(900.0f, 200.0f);
-      Sprite wall = new Sprite(this.Content, GraphicsDevice, _worldMap, wallPosition, "wall", new SpriteProperties(-50, new Vector2(), new Vector2()));
+      Vector2 wallPosition = new Vector2(700.0f, 300.0f);
+      Sprite wall = new Sprite(Content, GraphicsDevice, _worldMap, wallPosition, "wall", new SpriteProperties(50, new Vector2(), new Vector2()));
       wall.DrawBounds = true;
 
       Vector2 playerGeneratorPosition = new Vector2(200.0f, 600.0f);

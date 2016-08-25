@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BadGuySmasher
+namespace BadGuySmasher.Sprites.Players
 {
   public class PlayerGenerator : Sprite
   {

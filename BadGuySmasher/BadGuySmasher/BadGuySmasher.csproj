@@ -72,18 +72,20 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player.cs" />
-    <Compile Include="PlayerGenerator.cs" />
-    <Compile Include="SpriteGenerator.cs" />
-    <Compile Include="Sprite.cs" />
+    <Compile Include="Sprites\Interfaces\IPlayerProjectile.cs" />
+    <Compile Include="Sprites\Players\Player.cs" />
+    <Compile Include="Sprites\Players\PlayerGenerator.cs" />
+    <Compile Include="Sprites\Players\PlayerProjectile.cs" />
+    <Compile Include="Sprites\SpriteGenerator.cs" />
+    <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="CollisionResults.cs" />
     <Compile Include="GameState.cs" />
-    <Compile Include="ISprite.cs" />
+    <Compile Include="Sprites\Interfaces\ISprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="BadGuySmasherGame.cs" />
     <Compile Include="SplashScreen.cs" />
-    <Compile Include="SpriteProperties.cs" />
+    <Compile Include="Sprites\SpriteProperties.cs" />
     <Compile Include="WorldMap.cs" />
   </ItemGroup>
   <ItemGroup>
