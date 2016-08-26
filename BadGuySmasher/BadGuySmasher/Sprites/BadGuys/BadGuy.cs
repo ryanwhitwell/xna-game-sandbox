@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher.Sprites.BadGuys
 {
-  public class BadGuy : Sprite, ISquishy
+  public class BadGuy : Sprite, ISquishy, IBadGuy
   {
     public BadGuy(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName, SpriteProperties spriteProperties)
       : base(contentManager, graphicsDevice, worldMap, velocity, position, textureAssetName, spriteProperties)
@@ -102,6 +102,11 @@ namespace BadGuySmasher.Sprites.BadGuys
           SlowDownY(absTotalSquishy);
         }
       }
+    }
+
+    public void Die()
+    {
+      Delete();
     }
   }
 }

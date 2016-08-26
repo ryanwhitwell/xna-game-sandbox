@@ -1,11 +1,12 @@
 ﻿using BadGuySmasher.Sprites.BadGuys;
+using BadGuySmasher.Sprites.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher.Sprites.Players
 {
-  public class PlayerProjectile : Sprite
+  public class PlayerProjectile : Sprite, IProjectile
   {
     public const int MAX_DISTANCE         = 1500;
     public const int ProjectileMoveSpeed  = 900;
@@ -50,20 +51,9 @@ namespace BadGuySmasher.Sprites.Players
       Position += direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
 
-    protected override void HandleCollesionResults(Vector2 originalPosition, CollisionResults collisionResults)
+    public void Dissolve()
     {
-      BadGuy badGuy = collisionResults.Sprite as BadGuy;
-
-      if (badGuy != null)
-      {
-        badGuy.Delete();
-        return;
-      }
-
-      if (collisionResults.Sprite != null && !(collisionResults.Sprite is Player))
-      {
-        Delete();
-      }
+      Delete();
     }
   }
 }

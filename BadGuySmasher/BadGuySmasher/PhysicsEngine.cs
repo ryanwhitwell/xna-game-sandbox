@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using BadGuySmasher.Sprites;
 using BadGuySmasher.Sprites.Interfaces;
+using BadGuySmasher.Sprites.Players;
 
 namespace BadGuySmasher
 {
@@ -15,20 +16,40 @@ namespace BadGuySmasher
       {
         return;
       }
-      
+
       Sprite sprite2 = collisionResults.Sprite;
+      
+      HandleSpritePhysics(sprite, sprite2);
 
-      HandleSpritePhysics(sprite, collisionResults);
-
-      HandleSpritePhysics(sprite2, collisionResults);
+      HandleSpritePhysics(sprite2, sprite);
     }
 
-    private void HandleSpritePhysics(Sprite sprite, CollisionResults collisionResults)
+    private void HandleSpritePhysics(Sprite sprite1, Sprite sprite2)
     {
-      if (sprite is ISquishy)
+      if (sprite1 is ISquishy)
       {
-        ISquishy squishySprite = sprite as ISquishy;
-        squishySprite.Squish(collisionResults.Sprite.Squishiness);
+        ISquishy squishySprite = sprite1 as ISquishy;
+        squishySprite.Squish(sprite2.Squishiness);
+      }
+      
+      if (sprite1 is IProjectile)
+      {
+        IProjectile projectileSprite = sprite1 as IProjectile;
+
+        if (!(sprite2 is Player))
+        {
+          projectileSprite.Dissolve();
+        }
+      }
+      
+      if (sprite1 is IBadGuy)
+      {
+        IBadGuy badGuySprite = sprite1 as IBadGuy;
+
+        if (sprite2 is PlayerProjectile)
+        {
+          badGuySprite.Die();
+        }
       }
     }
   }
