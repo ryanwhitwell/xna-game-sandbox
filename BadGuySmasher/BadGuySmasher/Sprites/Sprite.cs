@@ -108,6 +108,11 @@ namespace BadGuySmasher.Sprites
       set { _rotation = value; }
     }
 
+    public Vector2 Velocity
+    {
+      get { return _velocity; }
+      set { _velocity = value; }
+    }
 
     public string         Id             { get { return _id; } }
     public Rectangle      Bounds         { get { return _bounds; } }
@@ -169,126 +174,58 @@ namespace BadGuySmasher.Sprites
       }
     }
 
-    public virtual void Update(GameTime gameTime)
+    protected virtual void Move(GameTime gameTime)
+    {
+      // default is to do nothing
+    }
+
+    protected virtual void HandleCollesionResults(Vector2 originalPosition, CollisionResults collisionResults)
+    {
+
+
+    }
+
+    public void Update(GameTime gameTime)
     {
       if (_velocity == null)
       {
         return;
       }
-      
+
       Vector2 originalPosition = _position;
 
-      // Move the sprite by speed, scaled by elapsed time.
-      _position += _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-      
+      Move(gameTime);
+
       UpdateSpriteBounds(_position);
 
       CollisionResults collisionResults = _worldMap.GetCollisionResults(this);
 
-      bool changedX = false;
-      bool changedY = false;
-
-      if (collisionResults.XMove != 0)
-      {
-        bool velocityPos = _velocity.X > 0;
-        bool movePos     = collisionResults.XMove > 0;
-
-        if (velocityPos != movePos)
-        {
-          _velocity.X *= -1;
-          _position.X = originalPosition.X;
-          changedX    = true;
-        }
-      } 
-
-      if (collisionResults.YMove != 0)
-      {
-        bool velocityPos = _velocity.Y > 0;
-        bool movePos     = collisionResults.YMove > 0;
-
-        if (velocityPos != movePos)
-        {
-          _velocity.Y *= -1;
-          _position.Y = originalPosition.Y;
-          changedY    = true;
-        }
-      }
-
-      // If we are trying to change both the X and Y direction, see where we collided the most
-      // and only change that direction.
-      if (changedX && changedY)
-      {
-        if (Math.Abs(collisionResults.XMove) > Math.Abs(collisionResults.YMove))
-        {
-          _velocity.X *= -1;
-        }
-        else if (Math.Abs(collisionResults.YMove) > Math.Abs(collisionResults.XMove))
-        {
-          _velocity.Y *= -1;
-        }
-      }
-
-      // apply squishiness
-      if (collisionResults.Sprite != null && (changedX || changedY))
-      {
-        float totalSquishy = Squishiness + collisionResults.Sprite.Squishiness;
-
-        bool  speedUp         = totalSquishy < 0;
-        float absTotalSquishy = Math.Abs(totalSquishy);
-
-        if (speedUp)
-        {
-          SpeedUpX(absTotalSquishy);
-          SpeedUpY(absTotalSquishy);
-        }
-        else
-        {
-          SlowDownX(absTotalSquishy);
-          SlowDownY(absTotalSquishy);
-        }
-
-        if (totalSquishy > 0)
-        {
-          if (XTooSlow || YTooSlow)
-          {
-            SpeedUpX(absTotalSquishy);
-            SpeedUpY(absTotalSquishy);
-          }
-        }
-        else if (totalSquishy < 0)
-        {
-          if (XTooFast || YTooFast)
-          {
-            SlowDownX(absTotalSquishy);
-            SlowDownY(absTotalSquishy);
-          }
-        }
-      }
+      HandleCollesionResults(originalPosition, collisionResults);
 
       UpdateSpriteBounds(_position);
     }
 
-    private bool XTooFast
+    protected bool XTooFast
     {
       get { return _velocity.X > 0 ? _velocity.X > _spriteProperties.MaxVelocity.X : _velocity.X < -_spriteProperties.MaxVelocity.X; }
     }
 
-    private bool XTooSlow
+    protected bool XTooSlow
     {
       get { return _velocity.X > 0 ? _velocity.X < _spriteProperties.MinVelocity.X : _velocity.X > -_spriteProperties.MinVelocity.X; }
     }
 
-    private bool YTooFast
+    protected bool YTooFast
     {
       get { return _velocity.Y > 0 ? _velocity.Y > _spriteProperties.MaxVelocity.Y : _velocity.Y < -_spriteProperties.MaxVelocity.Y; }
     }
 
-    private bool YTooSlow
+    protected bool YTooSlow
     {
       get { return _velocity.Y > 0 ? _velocity.Y < _spriteProperties.MinVelocity.Y : _velocity.Y > -_spriteProperties.MinVelocity.Y; }
     }
 
-    private void SlowDownX(float decrease)
+    protected void SlowDownX(float decrease)
     {
       if (_velocity.X >= 0)
       {
@@ -300,7 +237,7 @@ namespace BadGuySmasher.Sprites
       }
     }
 
-    private void SlowDownY(float decrease)
+    protected void SlowDownY(float decrease)
     {
       if (_velocity.Y >= 0)
       {
@@ -312,7 +249,7 @@ namespace BadGuySmasher.Sprites
       }
     }
 
-    private void SpeedUpX(float increase)
+    protected void SpeedUpX(float increase)
     {
       if (_velocity.X >= 0)
       {
@@ -324,7 +261,7 @@ namespace BadGuySmasher.Sprites
       }
     }
 
-    private void SpeedUpY(float increase)
+    protected void SpeedUpY(float increase)
     {
       if (_velocity.Y >= 0)
       {
@@ -336,7 +273,7 @@ namespace BadGuySmasher.Sprites
       }
     }
 
-    protected void UpdateSpriteBounds(Vector2 spritePosition)
+    private void UpdateSpriteBounds(Vector2 spritePosition)
     {
       _bounds.X = (int)spritePosition.X;
       _bounds.Y = (int)spritePosition.Y;

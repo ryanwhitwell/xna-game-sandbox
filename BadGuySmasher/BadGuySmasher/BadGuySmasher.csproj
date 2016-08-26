@@ -72,10 +72,11 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\BadGuys\BadGuy.cs" />
     <Compile Include="Sprites\Players\Player.cs" />
     <Compile Include="Sprites\Players\PlayerGenerator.cs" />
     <Compile Include="Sprites\Players\PlayerProjectile.cs" />
-    <Compile Include="Sprites\SpriteGenerator.cs" />
+    <Compile Include="Sprites\BadGuys\BadGuyGenerator.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="CollisionResults.cs" />
     <Compile Include="GameState.cs" />

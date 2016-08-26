@@ -23,18 +23,17 @@ namespace BadGuySmasher.Sprites.Players
     }
 
     public bool Visible { get { return _visible; } set { _visible = value; } }
-    
-    public override void Update(GameTime gameTime)
+
+    protected override void Move(GameTime gameTime)
     {
       if (Vector2.Distance(_startPosition, Position) > MAX_DISTANCE)
       {
         Visible = false;
       }
-      
+
       if (Visible == true)
       {
         UpdatePosition(gameTime, _direction, _speed);
-        UpdateSpriteBounds(Position);
       }
     }
 

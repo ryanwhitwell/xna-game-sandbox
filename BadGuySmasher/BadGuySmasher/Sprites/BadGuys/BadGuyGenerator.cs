@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using BadGuySmasher.Sprites.BadGuys;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BadGuySmasher.Sprites
+namespace BadGuySmasher.Sprites.BadGuys
 {
-  public class SpriteGenerator : Sprite
+  public class BadGuyGenerator : Sprite
   {
     private const int SpriteVectorRange = 200;
     
@@ -18,7 +19,7 @@ namespace BadGuySmasher.Sprites
 
     private List<Sprite> _generatedSprites = new List<Sprite>();
 
-    public SpriteGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, int maxBadGuys, int secondsBetweenGeneratons, string generatorTextureAssetName, string spriteTextureAssetName) 
+    public BadGuyGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, int maxBadGuys, int secondsBetweenGeneratons, string generatorTextureAssetName, string spriteTextureAssetName) 
       : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName, new SpriteProperties(0, new Vector2(), new Vector2()))
     {
       if (string.IsNullOrWhiteSpace(spriteTextureAssetName))
@@ -50,7 +51,7 @@ namespace BadGuySmasher.Sprites
       return Math.Abs(one - two) <= tolerance;
     }
 
-    public override void Update(GameTime gameTime)
+    protected override void Move(GameTime gameTime)
     {
       if (_generatedSprites.Count >= _maxSprites)
       {
@@ -59,9 +60,9 @@ namespace BadGuySmasher.Sprites
 
       if (gameTime.TotalGameTime - _lastSpriteGeneratedAt > _timeBetweenGenerations)
       {
-        Vector2 spriteVector    = GetSpriteVector();
-        Vector2 spritePosition  = new Vector2(base.Position.X, base.Position.Y);
-        Sprite  generatedSprite = new Sprite(base.ContentManager, base.GraphicsDevice, base.WorldMap, spriteVector, spritePosition, _spriteTextureAssetName, new SpriteProperties(-5, new Vector2(250, 250), new Vector2(50, 50)));
+        Vector2 spriteVector = GetSpriteVector();
+        Vector2 spritePosition = new Vector2(base.Position.X, base.Position.Y);
+        BadGuy generatedSprite = new BadGuy(base.ContentManager, base.GraphicsDevice, base.WorldMap, spriteVector, spritePosition, _spriteTextureAssetName, new SpriteProperties(-5, new Vector2(250, 250), new Vector2(50, 50)));
 
         generatedSprite.DrawBounds = this.DrawBounds;
 
@@ -71,8 +72,6 @@ namespace BadGuySmasher.Sprites
 
         _lastSpriteGeneratedAt = gameTime.TotalGameTime;
       }
-
-      base.Update(gameTime);
     }
   }
 }

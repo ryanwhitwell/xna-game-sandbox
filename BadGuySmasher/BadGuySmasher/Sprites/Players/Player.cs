@@ -31,7 +31,7 @@ namespace BadGuySmasher.Sprites.Players
 
     public int Number { get { return _number; } }
 
-    public override void Update(GameTime gameTime)
+    protected override void Move(GameTime gameTime)
     {
       KeyboardState state = Keyboard.GetState();
 
@@ -40,11 +40,14 @@ namespace BadGuySmasher.Sprites.Players
 
       HandleMovement(state);
 
-      HandleCollision(currentX, currentY);
-
       UpdateProjectiles(gameTime, state, _previousKeyboardState);
 
       _previousKeyboardState = state;
+    }
+
+    protected override void HandleCollesionResults(Vector2 originalPosition, CollisionResults collisionResults)
+    {
+      HandleCollision(originalPosition.X, originalPosition.Y);
     }
 
     private void MoveForward()
@@ -96,11 +99,6 @@ namespace BadGuySmasher.Sprites.Players
       {
         SetYPosition(currentY);
       }
-
-      SetXVelocity(0.0f);
-      SetYVelocity(0.0f);
-      
-      UpdateSpriteBounds(Position);
     }
 
     private void HandleMovement(KeyboardState state)
@@ -153,8 +151,6 @@ namespace BadGuySmasher.Sprites.Players
             Rotation -= RotationSpeed;
         }
       }
-
-      UpdateSpriteBounds(Position);
     }
 
     private void UpdateProjectiles(GameTime gameTime, KeyboardState keyboardState, KeyboardState previousKeyboardState)

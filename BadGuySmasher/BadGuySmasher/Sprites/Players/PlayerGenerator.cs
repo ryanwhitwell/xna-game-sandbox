@@ -29,7 +29,7 @@ namespace BadGuySmasher.Sprites.Players
 
     public ICollection<Player> Players { get { return _players; } }
 
-    public override void Update(GameTime gameTime)
+    protected override void Move(GameTime gameTime)
     {
       if (_players == null || _players.Count <= 0)
       {
@@ -45,8 +45,6 @@ namespace BadGuySmasher.Sprites.Players
           WorldMap.Sprites.Add(newPlayer);
         }
       }
-      
-      base.Update(gameTime);
     }
   }
 }
