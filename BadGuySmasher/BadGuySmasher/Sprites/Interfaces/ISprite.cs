@@ -22,5 +22,6 @@ namespace BadGuySmasher.Sprites.Interfaces
     void SetYPosition(float value);
     void SetXVelocity(float value);
     void SetYVelocity(float value);
+    void Delete();
   }
 }

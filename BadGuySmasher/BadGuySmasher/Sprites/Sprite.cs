@@ -341,5 +341,10 @@ namespace BadGuySmasher.Sprites
       _bounds.X = (int)spritePosition.X;
       _bounds.Y = (int)spritePosition.Y;
     }
+
+    public void Delete()
+    {
+      _worldMap.Sprites.Remove(this);
+    }
   }
 }

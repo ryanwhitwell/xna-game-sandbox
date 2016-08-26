@@ -42,7 +42,7 @@ namespace BadGuySmasher.Sprites.Players
 
       HandleCollision(currentX, currentY);
 
-      UpdateFireball(gameTime, state, _previousKeyboardState);
+      UpdateProjectiles(gameTime, state, _previousKeyboardState);
 
       _previousKeyboardState = state;
     }
@@ -157,7 +157,7 @@ namespace BadGuySmasher.Sprites.Players
       UpdateSpriteBounds(Position);
     }
 
-    private void UpdateFireball(GameTime gameTime, KeyboardState keyboardState, KeyboardState previousKeyboardState)
+    private void UpdateProjectiles(GameTime gameTime, KeyboardState keyboardState, KeyboardState previousKeyboardState)
     {
       if (_number == 1 && keyboardState.IsKeyDown(Keys.Space) && !previousKeyboardState.IsKeyDown(Keys.Space))
       {
@@ -173,6 +173,19 @@ namespace BadGuySmasher.Sprites.Players
         _projectiles.Add(newProjectile);
 
         WorldMap.Sprites.Add(newProjectile);
+      }
+
+      // Update collection of player projectiles
+      for (int i = _projectiles.Count - 1; i >= 0; --i)
+      {
+        if (!_projectiles[i].Visible)
+        {
+          // Remove from WorldMap
+          _projectiles[i].Delete();
+
+          // Remove from Player Collection
+          _projectiles.RemoveAt(i);
+        }
       }
     }
   }

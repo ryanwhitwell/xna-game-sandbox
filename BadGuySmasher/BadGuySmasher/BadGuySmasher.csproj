@@ -72,7 +72,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Interfaces\IPlayerProjectile.cs" />
     <Compile Include="Sprites\Players\Player.cs" />
     <Compile Include="Sprites\Players\PlayerGenerator.cs" />
     <Compile Include="Sprites\Players\PlayerProjectile.cs" />
