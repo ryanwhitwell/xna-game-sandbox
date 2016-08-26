@@ -1,12 +1,11 @@
 ﻿using System;
-using BadGuySmasher.Sprites.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher.Sprites
 {
-  public class Sprite : SpriteBatch, ISprite
+  public class Sprite : SpriteBatch
   {
     private Texture2D         _texture;
     private GraphicsDevice    _graphicsDevice;
