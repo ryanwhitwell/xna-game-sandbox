@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BadGuySmasher.Sprites.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher.Sprites.BadGuys
 {
-  public class BadGuy : Sprite
+  public class BadGuy : Sprite, ISquishy
   {
     public BadGuy(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName, SpriteProperties spriteProperties)
       : base(contentManager, graphicsDevice, worldMap, velocity, position, textureAssetName, spriteProperties)
@@ -65,41 +66,40 @@ namespace BadGuySmasher.Sprites.BadGuys
           SetYVelocity(Velocity.Y * -1);
         }
       }
+    }
 
-      // apply squishiness
-      if (collisionResults.Sprite != null && (changedX || changedY))
+    public void Squish(float squishiness)
+    {
+      float totalSquishy = Squishiness + squishiness;
+
+      bool  speedUp         = totalSquishy < 0;
+      float absTotalSquishy = Math.Abs(totalSquishy);
+
+      if (speedUp)
       {
-        float totalSquishy = Squishiness + collisionResults.Sprite.Squishiness;
+        SpeedUpX(absTotalSquishy);
+        SpeedUpY(absTotalSquishy);
+      }
+      else
+      {
+        SlowDownX(absTotalSquishy);
+        SlowDownY(absTotalSquishy);
+      }
 
-        bool  speedUp         = totalSquishy < 0;
-        float absTotalSquishy = Math.Abs(totalSquishy);
-
-        if (speedUp)
+      if (totalSquishy > 0)
+      {
+        if (XTooSlow || YTooSlow)
         {
           SpeedUpX(absTotalSquishy);
           SpeedUpY(absTotalSquishy);
         }
-        else
+      }
+      else if (totalSquishy < 0)
+      {
+        if (XTooFast || YTooFast)
         {
           SlowDownX(absTotalSquishy);
           SlowDownY(absTotalSquishy);
-        }
-
-        if (totalSquishy > 0)
-        {
-          if (XTooSlow || YTooSlow)
-          {
-            SpeedUpX(absTotalSquishy);
-            SpeedUpY(absTotalSquishy);
-          }
-        }
-        else if (totalSquishy < 0)
-        {
-          if (XTooFast || YTooFast)
-          {
-            SlowDownX(absTotalSquishy);
-            SlowDownY(absTotalSquishy);
-          }
         }
       }
     }

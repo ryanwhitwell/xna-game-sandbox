@@ -56,7 +56,7 @@ namespace BadGuySmasher
     protected override void LoadContent()
     {
       Vector2 badGuyGeneratorPosition   = new Vector2(300.0f, 300.0f);
-      BadGuyGenerator _badGuyGenerator  = new BadGuyGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 25, 1, "BadGuyGenerator", "badguy");
+      BadGuyGenerator _badGuyGenerator  = new BadGuyGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 1, 1, "BadGuyGenerator", "badguy");
       _badGuyGenerator.DrawBounds = true;
 
       Vector2 wallPosition = new Vector2(700.0f, 300.0f);
