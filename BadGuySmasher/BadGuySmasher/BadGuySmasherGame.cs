@@ -22,8 +22,6 @@ namespace BadGuySmasher
     SplashScreen _splashScreen;
     WorldMap _worldMap;
 
-    PlayerGenerator _playerGenerator;
-
     public BadGuySmasherGame()
     {
       graphics = new GraphicsDeviceManager(this);
@@ -43,7 +41,7 @@ namespace BadGuySmasher
     protected override void Initialize()
     {
       // TODO: Add your initialization logic here
-      _worldMap     = new WorldMap(this.GraphicsDevice);
+      _worldMap     = new WorldMap(Content, this.GraphicsDevice);
       _splashScreen = new SplashScreen(Content, graphics, "TitleFont");
 
       base.Initialize();
@@ -55,21 +53,7 @@ namespace BadGuySmasher
     /// </summary>
     protected override void LoadContent()
     {
-      Vector2 badGuyGeneratorPosition   = new Vector2(300.0f, 300.0f);
-      BadGuyGenerator _badGuyGenerator  = new BadGuyGenerator(Content, GraphicsDevice, _worldMap, badGuyGeneratorPosition, 20, 1, "BadGuyGenerator", "badguy");
-      _badGuyGenerator.DrawBounds = true;
-
-      Vector2 wallPosition = new Vector2(700.0f, 300.0f);
-      Wall wall = new Wall(Content, GraphicsDevice, _worldMap, wallPosition, "wall", new SpriteProperties(50, new Vector2(), new Vector2()));
-      wall.DrawBounds = true;
-
-      Vector2 playerGeneratorPosition = new Vector2(200.0f, 600.0f);
-      _playerGenerator = new PlayerGenerator(Content, GraphicsDevice, _worldMap, playerGeneratorPosition, "PlayerGenerator", "player");
-      _playerGenerator.DrawBounds = true;
-
-      _worldMap.Sprites.Add(_badGuyGenerator);
-      _worldMap.Sprites.Add(wall);
-      _worldMap.Sprites.Add(_playerGenerator);
+      _worldMap.LoadMap();
     }
 
     /// <summary>
@@ -90,7 +74,7 @@ namespace BadGuySmasher
     {
       UpdateInput();
 
-      _playerGenerator.SetNumberOfPlayers(_splashScreen.NumberOfPlayers);
+      _worldMap.SetNumberOfPlayers(_splashScreen.NumberOfPlayers);
 
       if (gameState == GameState.Game)
       {

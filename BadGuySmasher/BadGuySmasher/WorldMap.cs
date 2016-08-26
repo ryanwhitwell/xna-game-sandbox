@@ -2,7 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using BadGuySmasher.Sprites;
+using BadGuySmasher.Sprites.BadGuys;
+using BadGuySmasher.Sprites.Players;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher
@@ -10,13 +13,16 @@ namespace BadGuySmasher
   public class WorldMap
   {
     private ICollection<Sprite>   _sprites;
+    private ContentManager        _content;
     private GraphicsDevice        _graphicsDevice;
     private Rectangle             _titleSafeArea;
     private PhysicsEngine         _physicsEngine;
+    private PlayerGenerator       _playerGenerator;
 
-    public WorldMap(GraphicsDevice graphicsDevice) 
+    public WorldMap(ContentManager content, GraphicsDevice graphicsDevice) 
     {
       _sprites        = new Collection<Sprite>();
+      _content        = content;
       _graphicsDevice = graphicsDevice;
       _titleSafeArea  = GetTitleSafeArea(.8f);
       _physicsEngine  = new PhysicsEngine();
@@ -42,6 +48,30 @@ namespace BadGuySmasher
         Sprite sprite = _sprites.ElementAt(i);
         sprite.Update(gameTime);
       }
+    }
+
+    public void LoadMap()
+    {
+      Vector2 badGuyGeneratorPosition   = new Vector2(300.0f, 300.0f);
+      BadGuyGenerator _badGuyGenerator  = new BadGuyGenerator(_content, _graphicsDevice, this, badGuyGeneratorPosition, 20, 1, "BadGuyGenerator", "badguy");
+      _badGuyGenerator.DrawBounds = true;
+
+      Vector2 wallPosition = new Vector2(700.0f, 300.0f);
+      Wall wall = new Wall(_content, _graphicsDevice, this, wallPosition, "wall", new SpriteProperties(50, new Vector2(), new Vector2()));
+      wall.DrawBounds = true;
+
+      Vector2 playerGeneratorPosition = new Vector2(200.0f, 600.0f);
+      _playerGenerator = new PlayerGenerator(_content, _graphicsDevice, this, playerGeneratorPosition, "PlayerGenerator", "player");
+      _playerGenerator.DrawBounds = true;
+
+      Sprites.Add(_badGuyGenerator);
+      Sprites.Add(wall);
+      Sprites.Add(_playerGenerator);
+    }
+
+    public void SetNumberOfPlayers(int numberOfPlayers)
+    {
+      _playerGenerator.SetNumberOfPlayers(numberOfPlayers);
     }
 
     private CollisionResults GetBoundryCollisionResult(Rectangle spriteBounds)
