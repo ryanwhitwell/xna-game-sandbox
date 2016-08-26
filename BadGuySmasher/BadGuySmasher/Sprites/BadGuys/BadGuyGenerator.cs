@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using BadGuySmasher.Sprites.BadGuys;
 using Microsoft.Xna.Framework;
@@ -12,6 +13,9 @@ namespace BadGuySmasher.Sprites.BadGuys
     private const int SpriteVectorRange = 200;
     
     private int       _maxSprites;
+    private bool      _inSpawnCycle = true;
+    private int       _spawnCycle = 0;
+    private int       _totalSpawned = 0;
     private TimeSpan  _lastSpriteGeneratedAt = new TimeSpan();
     private Random    _random = new Random(DateTime.Now.Millisecond);
     private string    _spriteTextureAssetName;
@@ -53,8 +57,26 @@ namespace BadGuySmasher.Sprites.BadGuys
 
     protected override void Move(GameTime gameTime)
     {
-      if (_generatedSprites.Count >= _maxSprites)
+      CleanUpDeadBadGuys();
+
+      if (!_inSpawnCycle || _totalSpawned >= _maxSprites)
       {
+        if (_inSpawnCycle)
+        {
+          if (_spawnCycle > 1)
+          {
+            return;
+          }
+
+          _spawnCycle++;
+          _inSpawnCycle = false;
+        }
+        else if (_spawnCycle <= 1 && _generatedSprites.Count <= _maxSprites / 2)
+        {
+          _inSpawnCycle = true;
+          _maxSprites += _maxSprites / 2;
+        }
+        
         return;
       }
 
@@ -71,6 +93,19 @@ namespace BadGuySmasher.Sprites.BadGuys
         base.WorldMap.Sprites.Add(generatedSprite);
 
         _lastSpriteGeneratedAt = gameTime.TotalGameTime;
+        _totalSpawned++;
+      }
+    }
+
+    private void CleanUpDeadBadGuys()
+    {
+      for (int i = _generatedSprites.Count() - 1; i >= 0; i--)
+      {
+        BadGuy badGuy = _generatedSprites[i] as BadGuy;
+        if (!WorldMap.Sprites.Any(s => s.Equals(badGuy)))
+        {
+          _generatedSprites.RemoveAt(i);
+        }
       }
     }
   }

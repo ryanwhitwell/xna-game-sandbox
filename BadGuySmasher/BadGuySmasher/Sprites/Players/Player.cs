@@ -184,5 +184,5 @@ namespace BadGuySmasher.Sprites.Players
         }
       }
     }
-  }
+ }
 }

@@ -86,6 +86,7 @@
     <Compile Include="BadGuySmasherGame.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Sprites\SpriteProperties.cs" />
+    <Compile Include="Sprites\Wall.cs" />
     <Compile Include="WorldMap.cs" />
   </ItemGroup>
   <ItemGroup>

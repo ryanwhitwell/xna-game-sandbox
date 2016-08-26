@@ -279,7 +279,7 @@ namespace BadGuySmasher.Sprites
       _bounds.Y = (int)spritePosition.Y;
     }
 
-    public void Delete()
+    public virtual void Delete()
     {
       _worldMap.Sprites.Remove(this);
     }
