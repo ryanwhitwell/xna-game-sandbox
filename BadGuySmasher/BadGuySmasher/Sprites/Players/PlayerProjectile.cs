@@ -15,21 +15,26 @@ namespace BadGuySmasher.Sprites.Players
     private Vector2 _speed;
     private Vector2 _direction;
     private bool    _visible;
+    private int     _power;
 
     public PlayerProjectile(ContentManager contentManager, 
                             GraphicsDevice graphicsDevice, 
                             WorldMap       worldMap, 
+                            int            power,
                             Vector2        position, 
                             Vector2        speed, 
                             Vector2        direction, 
                             string         textureAssetName) 
       : base(contentManager, graphicsDevice, worldMap, position, textureAssetName, null) 
-    { 
+    {
+      _power          = power;
       _startPosition  = position;
       _speed          = speed;
       _direction      = direction;
       _visible        = true;
     }
+
+    public int Power { get { return _power; } set { _power = value; } }
 
     public bool Visible { get { return _visible; } set { _visible = value; } }
 

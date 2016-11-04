@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BadGuySmasher.Sprites.Interfaces;
+using BadGuySmasher.Sprites.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,15 +12,37 @@ namespace BadGuySmasher.Sprites.BadGuys
 {
   public class BadGuy : Sprite, ISquishy, IBadGuy
   {
-    public BadGuy(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName, SpriteProperties spriteProperties)
+    private int _hitPoints;
+    
+    public BadGuy(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, int hitPoints, string textureAssetName, SpriteProperties spriteProperties)
       : base(contentManager, graphicsDevice, worldMap, velocity, position, textureAssetName, spriteProperties)
     {
+      _hitPoints = hitPoints;
+    }
+
+    public int HitPoints
+    { 
+      get { return _hitPoints; } 
+      set { _hitPoints = value; } 
     }
 
     protected override void Move(GameTime gameTime)
     {
       // Move the sprite by speed, scaled by elapsed time.
       Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+    }
+
+    public override void Draw(GameTime gameTime)
+    {
+      this.Begin();
+
+      string xText = "HP:" + _hitPoints.ToString();
+        
+      this.DrawString(SpriteFont, xText, new Vector2(Bounds.Right + 5, Bounds.Top + 30), Color.WhiteSmoke);
+
+      this.End();
+      
+      base.Draw(gameTime);
     }
 
     protected override void HandleCollesionResults(Vector2 originalPosition, CollisionResults collisionResults)
@@ -107,6 +130,16 @@ namespace BadGuySmasher.Sprites.BadGuys
     public void Die()
     {
       Delete();
+    }
+
+    public void GetHit(PlayerProjectile playerProjectile)
+    {
+      _hitPoints -= playerProjectile.Power;
+
+      if (_hitPoints <= 0)
+      {
+        this.Die();
+      }
     }
   }
 }

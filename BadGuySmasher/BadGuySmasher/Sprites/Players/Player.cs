@@ -9,8 +9,9 @@ namespace BadGuySmasher.Sprites.Players
 {
   public class Player : Sprite
   {
-    private const int   MoveSpeed     = 5;
-    private const float RotationSpeed = 0.1f;
+    private const int   MoveSpeed       = 5;
+    private const float RotationSpeed   = 0.1f;
+    private const int   DefaultGunPower = 5;
     
     private int _number = 0;
 
@@ -161,7 +162,7 @@ namespace BadGuySmasher.Sprites.Players
         Vector2 speed     = new Vector2(PlayerProjectile.ProjectileMoveSpeed, PlayerProjectile.ProjectileMoveSpeed);
         Vector2 position  = Position + new Vector2(Texture.Width / 2, Texture.Height / 2);
 
-        PlayerProjectile newProjectile = new PlayerProjectile(ContentManager, GraphicsDevice, WorldMap, position, speed, direction, "projectile");
+        PlayerProjectile newProjectile = new PlayerProjectile(ContentManager, GraphicsDevice, WorldMap, DefaultGunPower, position, speed, direction, "projectile");
         newProjectile.Rotation = Rotation;
         newProjectile.DrawBounds = true;
 

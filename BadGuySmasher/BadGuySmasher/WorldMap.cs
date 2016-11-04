@@ -53,7 +53,7 @@ namespace BadGuySmasher
     public void LoadMap()
     {
       Vector2 badGuyGeneratorPosition   = new Vector2(300.0f, 300.0f);
-      BadGuyGenerator _badGuyGenerator  = new BadGuyGenerator(_content, _graphicsDevice, this, badGuyGeneratorPosition, 20, 1, "BadGuyGenerator", "badguy");
+      BadGuyGenerator _badGuyGenerator  = new BadGuyGenerator(_content, _graphicsDevice, this, badGuyGeneratorPosition, 20, 1, 60, "BadGuyGenerator", "badguy");
       _badGuyGenerator.DrawBounds = true;
 
       Vector2 wallPosition = new Vector2(700.0f, 300.0f);

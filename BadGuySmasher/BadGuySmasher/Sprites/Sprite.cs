@@ -113,6 +113,11 @@ namespace BadGuySmasher.Sprites
       set { _velocity = value; }
     }
 
+    public SpriteFont SpriteFont 
+    { 
+      get { return _spriteFont; } 
+    }
+
     public string         Id             { get { return _id; } }
     public Rectangle      Bounds         { get { return _bounds; } }
     public WorldMap       WorldMap       { get { return _worldMap; } }

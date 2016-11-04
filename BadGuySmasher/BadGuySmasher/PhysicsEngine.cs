@@ -46,9 +46,11 @@ namespace BadGuySmasher
       {
         IBadGuy badGuySprite = sprite1 as IBadGuy;
 
-        if (sprite2 is PlayerProjectile)
+        PlayerProjectile playerProjectile = sprite2 as PlayerProjectile;
+
+        if (playerProjectile != null)
         {
-          badGuySprite.Die();
+          badGuySprite.GetHit(playerProjectile);
         }
       }
     }
