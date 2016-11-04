@@ -8,6 +8,8 @@ namespace BadGuySmasher.Sprites.Players
 {
   public class PlayerGenerator : Sprite
   {
+    private const int PlayerHitPoints = 100;
+    
     private string              _playerTextureAssetName;
     private ICollection<Player> _players;
     private int                 _numberOfPlayers;
@@ -39,7 +41,7 @@ namespace BadGuySmasher.Sprites.Players
         {
           Vector2 playerPosition = Position;
           playerPosition.X = Position.X * (i / 2.7f);
-          Player newPlayer = new Player(ContentManager, GraphicsDevice, WorldMap, playerPosition, _playerTextureAssetName, i);
+          Player newPlayer = new Player(ContentManager, GraphicsDevice, WorldMap, playerPosition, PlayerHitPoints, _playerTextureAssetName, i);
           newPlayer.DrawBounds = DrawBounds;
           _players.Add(newPlayer);
           WorldMap.Sprites.Add(newPlayer);

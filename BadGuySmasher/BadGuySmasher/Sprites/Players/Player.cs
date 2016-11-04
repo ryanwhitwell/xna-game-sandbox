@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BadGuySmasher.Sprites.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,21 +8,24 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BadGuySmasher.Sprites.Players
 {
-  public class Player : Sprite
+  public class Player : Sprite, IPlayer
   {
-    private const int   MoveSpeed       = 5;
-    private const float RotationSpeed   = 0.1f;
-    private const int   DefaultGunPower = 5;
+    private const int   MoveSpeed                   = 5;
+    private const float RotationSpeed               = 0.1f;
+    private const int   DefaultGunPower             = 5;
+    private const int   BadGuyHitHitPointDeduction  = 5;
     
     private int _number = 0;
+    private int _hitPoints;
 
     private List<PlayerProjectile> _projectiles = new List<PlayerProjectile>();
 
     private KeyboardState _previousKeyboardState;
     
-    public Player(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, string textureAssetName, int playerNumber) : base(contentManager, graphicsDevice, worldMap, position, textureAssetName, null)
+    public Player(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, int hitPoints, string textureAssetName, int playerNumber) : base(contentManager, graphicsDevice, worldMap, position, textureAssetName, null)
     {
-      _number = playerNumber;
+      _hitPoints  = hitPoints;
+      _number     = playerNumber;
     }
 
     private static float GetStrafeDirection() 
@@ -30,6 +34,12 @@ namespace BadGuySmasher.Sprites.Players
     }
 
     public int Number { get { return _number; } }
+
+    public int HitPoints
+    { 
+      get { return _hitPoints; } 
+      set { _hitPoints = value; } 
+    }
 
     protected override void Move(GameTime gameTime)
     {
@@ -182,6 +192,36 @@ namespace BadGuySmasher.Sprites.Players
           // Remove from Player Collection
           _projectiles.RemoveAt(i);
         }
+      }
+    }
+
+    public override void Draw(GameTime gameTime)
+    {
+      this.Begin();
+
+      string xText = "HP:" + _hitPoints.ToString();
+        
+      this.DrawString(SpriteFont, xText, new Vector2(Bounds.Right + 5, Bounds.Top + 30), Color.WhiteSmoke);
+
+      this.End();
+      
+      base.Draw(gameTime);
+    }
+
+    public void Die()
+    {
+      Delete();
+    }
+
+    public void GetHit(IBadGuy badGuy)
+    {
+      // Currently every time the Player gets hit by a BadGuy, the payer has a constant number of HP deducted from
+      // their total HP. It could be interesting if this varied based on the BadGuy that hit the Player.
+      _hitPoints -= BadGuyHitHitPointDeduction;
+
+      if (_hitPoints <= 0)
+      {
+        this.Die();
       }
     }
  }

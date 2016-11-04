@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="PhysicsEngine.cs" />
     <Compile Include="Sprites\BadGuys\BadGuy.cs" />
+    <Compile Include="Sprites\Interfaces\IPlayer.cs" />
     <Compile Include="Sprites\Interfaces\IProjectile.cs" />
     <Compile Include="Sprites\Interfaces\IBadGuy.cs" />
     <Compile Include="Sprites\Interfaces\ISquishy.cs" />

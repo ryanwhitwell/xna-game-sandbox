@@ -53,6 +53,18 @@ namespace BadGuySmasher
           badGuySprite.GetHit(playerProjectile);
         }
       }
+
+      if (sprite1 is IPlayer)
+      {
+        IPlayer playerSprite = sprite1 as IPlayer;
+
+        IBadGuy badGuySprite = sprite2 as IBadGuy;
+
+        if (badGuySprite != null)
+        {
+          playerSprite.GetHit(badGuySprite);
+        }
+      }
     }
   }
 }
