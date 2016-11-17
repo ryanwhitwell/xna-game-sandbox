@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using BadGuySmasher.Sprites.Interfaces;
 using BadGuySmasher.Sprites.Players;
+using BadGuySmasher.GameManagement;
 
 namespace BadGuySmasher.Sprites.BadGuys
 {

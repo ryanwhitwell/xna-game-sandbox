@@ -1,4 +1,5 @@
-﻿using BadGuySmasher.Sprites.BadGuys;
+﻿using BadGuySmasher.GameManagement;
+using BadGuySmasher.Sprites.BadGuys;
 using BadGuySmasher.Sprites.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using BadGuySmasher.GameManagement;
+using BadGuySmasher.GameManagement.Interfaces;
 using BadGuySmasher.Sprites;
 using BadGuySmasher.Sprites.BadGuys;
 using BadGuySmasher.Sprites.Players;
@@ -15,21 +17,23 @@ using Microsoft.Xna.Framework.Media;
 
 namespace BadGuySmasher
 {
-  public class BadGuySmasherGame : Microsoft.Xna.Framework.Game
+  public class BadGuySmasherGame : Game
   {
-    GraphicsDeviceManager graphics;
-    GameState gameState = GameState.Menu;
-    SplashScreen _splashScreen;
-    WorldMap _worldMap;
+    GraphicsDeviceManager _graphics;
+    MainMenu              _mainMenu;
+    IWorldMapManager      _worldMapManager;
+    GameState             _gameState;
 
     public BadGuySmasherGame()
     {
-      graphics = new GraphicsDeviceManager(this);
+      _gameState = GameState.Menu;
 
-      graphics.IsFullScreen               = false;
-      graphics.PreferredBackBufferHeight  = 900;
-      graphics.PreferredBackBufferWidth   = 1200;
-      Content.RootDirectory               = "Content";
+      _graphics = new GraphicsDeviceManager(this);
+      _graphics.IsFullScreen               = false;
+      _graphics.PreferredBackBufferHeight  = 900;
+      _graphics.PreferredBackBufferWidth   = 1200;
+
+      Content.RootDirectory = "Content";
     }
 
     /// <summary>
@@ -40,9 +44,8 @@ namespace BadGuySmasher
     /// </summary>
     protected override void Initialize()
     {
-      // TODO: Add your initialization logic here
-      _worldMap     = new WorldMap(Content, this.GraphicsDevice);
-      _splashScreen = new SplashScreen(Content, graphics, "TitleFont");
+      _worldMapManager  = new WorldMapManager(Content, this.GraphicsDevice);
+      _mainMenu         = new MainMenu(Content, _graphics, "TitleFont");
 
       base.Initialize();
     }
@@ -51,19 +54,16 @@ namespace BadGuySmasher
     /// LoadContent will be called once per game and is the place to load
     /// all of your content.
     /// </summary>
-    protected override void LoadContent()
+    protected override void LoadContent() 
     {
-      _worldMap.LoadMap();
+      _worldMapManager.GameBegin();
     }
 
     /// <summary>
     /// UnloadContent will be called once per game and is the place to unload
     /// all content.
     /// </summary>
-    protected override void UnloadContent()
-    {
-      // TODO: Unload any non ContentManager content here
-    }
+    protected override void UnloadContent() { }
 
     /// <summary>
     /// Allows the game to run logic such as updating the world,
@@ -74,11 +74,11 @@ namespace BadGuySmasher
     {
       UpdateInput();
 
-      _worldMap.SetNumberOfPlayers(_splashScreen.NumberOfPlayers);
+      _worldMapManager.SetNumberOfPlayers(_mainMenu.NumberOfPlayers);
 
-      if (gameState == GameState.Game)
+      if (_gameState == GameState.Game)
       {
-        _worldMap.UpdateSpriteVectors(gameTime);
+        _worldMapManager.UpdateWorldMapSpriteVectors(gameTime);
       }
 
       base.Update(gameTime);
@@ -86,9 +86,9 @@ namespace BadGuySmasher
 
     private void UpdateInput()
     {
-      if (_splashScreen.UpdateInput() == SplashScreen.State.Exit)
+      if (_mainMenu.UpdateInput() == MainMenu.State.Exit)
       {
-        gameState = GameState.Game;
+        _gameState = GameState.Game;
       }
     }
 
@@ -102,13 +102,13 @@ namespace BadGuySmasher
 
       var mouseState = Mouse.GetState();
 
-      if (gameState == GameState.Menu)
+      if (_gameState == GameState.Menu)
       {
-        _splashScreen.Draw();
+        _mainMenu.Draw();
       }
       else
       {
-        _worldMap.DrawSprites(gameTime);
+        _worldMapManager.DrawWorldMapSprites(gameTime);
       }
 
       base.Draw(gameTime);

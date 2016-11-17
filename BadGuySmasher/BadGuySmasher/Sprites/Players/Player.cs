@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BadGuySmasher.GameManagement;
 using BadGuySmasher.Sprites.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -113,6 +114,8 @@ namespace BadGuySmasher.Sprites.Players
 
     private void HandleMovement(KeyboardState state)
     {
+      // TODO: 2-Players - We are currently only handling movement for 1 Player. When we support more than 1 player, we'll need to handle the 
+      // cases for _number == 2.
       if (_number == 1)
       {
         // Process movement keys

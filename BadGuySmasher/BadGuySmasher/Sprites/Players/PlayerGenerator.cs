@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using BadGuySmasher.GameManagement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,19 +35,25 @@ namespace BadGuySmasher.Sprites.Players
 
     protected override void Move(GameTime gameTime)
     {
+      // Only create Players once
       if (_players == null || _players.Count <= 0)
       {
-        _players = new List<Player>();
+        SpawnPlayers();
+      }
+    }
 
-        for (int i = 1; i <= _numberOfPlayers; i++)
-        {
-          Vector2 playerPosition = Position;
-          playerPosition.X = Position.X * (i / 2.7f);
-          Player newPlayer = new Player(ContentManager, GraphicsDevice, WorldMap, playerPosition, PlayerHitPoints, _playerTextureAssetName, i);
-          newPlayer.DrawBounds = DrawBounds;
-          _players.Add(newPlayer);
-          WorldMap.Sprites.Add(newPlayer);
-        }
+    private void SpawnPlayers()
+    {
+      _players = new List<Player>();
+
+      for (int i = 1; i <= _numberOfPlayers; i++)
+      {
+        Vector2 playerPosition = Position;
+        playerPosition.X = Position.X * (i / 2.7f);
+        Player newPlayer = new Player(ContentManager, GraphicsDevice, WorldMap, playerPosition, PlayerHitPoints, _playerTextureAssetName, i);
+        newPlayer.DrawBounds = DrawBounds;
+        _players.Add(newPlayer);
+        WorldMap.Sprites.Add(newPlayer);
       }
     }
   }
