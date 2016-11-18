@@ -84,6 +84,7 @@
     <Compile Include="GameManagement\Menus\Interfaces\IMenu.cs" />
     <Compile Include="GameManagement\Menus\MenuManager.cs" />
     <Compile Include="GameManagement\Menus\MenuState.cs" />
+    <Compile Include="GameManagement\Menus\PauseMenu.cs" />
     <Compile Include="GameManagement\PlayerScoreManager.cs" />
     <Compile Include="GameManagement\WorldMapManager.cs" />
     <Compile Include="GameManagement\PhysicsEngine.cs" />

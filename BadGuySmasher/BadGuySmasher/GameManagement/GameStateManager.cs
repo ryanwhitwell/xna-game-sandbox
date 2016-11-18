@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using BadGuySmasher.GameManagement.Interfaces;
 using BadGuySmasher.GameManagement.Menus.Interfaces;
 using BadGuySmasher.GameManagement.Menus;
+using System.ComponentModel;
 
 namespace BadGuySmasher.GameManagement
 {
@@ -50,6 +51,23 @@ namespace BadGuySmasher.GameManagement
       get
       {
         return _worldMapManager;
+      }
+    }
+
+    public void UpdateGameState()
+    {
+      MenuState menuState = _menuManager.CurrentMenu.UpdateInput();
+
+      switch(menuState)
+      {
+        case MenuState.Exit:
+          _gameState = GameState.Game;
+          break;
+        case MenuState.Show:
+          _gameState = GameState.Menu;
+          break;
+        default:
+          throw new InvalidEnumArgumentException("menuState", (int)menuState, typeof(MenuState));
       }
     }
   }

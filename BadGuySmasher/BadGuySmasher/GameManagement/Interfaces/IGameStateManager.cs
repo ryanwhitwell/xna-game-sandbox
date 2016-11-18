@@ -11,5 +11,7 @@ namespace BadGuySmasher.GameManagement.Interfaces
     IWorldMapManager  WorldMapManager { get; }
     GameState         GameState       { get; set; }
     IMenuManager      MenuManager     { get; }
+
+    void UpdateGameState();
   }
 }

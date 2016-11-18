@@ -8,5 +8,7 @@ namespace BadGuySmasher.GameManagement.Menus.Interfaces
   public interface IMenuManager
   {
     ICurrentMenu CurrentMenu { get; }
+
+    void SetCurrentMenu(string menuName);
   }
 }

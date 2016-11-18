@@ -69,7 +69,7 @@ namespace BadGuySmasher
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      UpdateGameState(_gameStateManager.MenuManager.CurrentMenu.UpdateInput());
+      _gameStateManager.UpdateGameState();
 
       if (_gameStateManager.GameState == GameState.Game)
       {
@@ -77,21 +77,6 @@ namespace BadGuySmasher
       }
 
       base.Update(gameTime);
-    }
-
-    private void UpdateGameState(MenuState menuState)
-    {
-      switch(menuState)
-      {
-        case MenuState.Exit:
-          _gameStateManager.GameState = GameState.Game;
-          break;
-        case MenuState.Show:
-          _gameStateManager.GameState = GameState.Menu;
-          break;
-        default:
-          throw new InvalidEnumArgumentException("menuState", (int)menuState, typeof(MenuState));
-      }
     }
 
     /// <summary>

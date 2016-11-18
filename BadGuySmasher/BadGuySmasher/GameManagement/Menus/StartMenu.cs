@@ -53,6 +53,12 @@ namespace BadGuySmasher
       // Update the game state with the number of players selected on this Menu
       base.GameStateManager.WorldMapManager.SetNumberOfPlayers(_numberOfPlayers);
 
+      if (_numberOfPlayers != 0)
+      {
+        // Update the current menu after the player selection is made
+        base.GameStateManager.MenuManager.SetCurrentMenu("PauseMenu");
+      }
+
       return base.MenuState;
     }
 
