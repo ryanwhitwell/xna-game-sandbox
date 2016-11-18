@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static BadGuySmasher.MainMenu;
 
 namespace BadGuySmasher.GameManagement.Menus.Interfaces
 {
@@ -10,7 +9,7 @@ namespace BadGuySmasher.GameManagement.Menus.Interfaces
   {
     int NumberOfPlayers { get; }
 
-    void  Draw();
-    State UpdateInput();
+    void           Draw();
+    MainMenu.State UpdateInput();
   }
 }
