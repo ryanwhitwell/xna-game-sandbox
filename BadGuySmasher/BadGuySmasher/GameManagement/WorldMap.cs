@@ -195,5 +195,53 @@ namespace BadGuySmasher.GameManagement
         return retval;
       #endif
     }
+
+    public int Player1Health
+    {
+      get
+      {
+        IEnumerable<Player> players = _playerGenerator.Players.Where(x => x.Number == 1);
+
+        return players == null ? int.MinValue : players.Select(s => s.HitPoints).FirstOrDefault();
+      }
+    }
+
+    public int Player2Health
+    {
+      get
+      {
+        IEnumerable<Player> players = _playerGenerator.Players.Where(x => x.Number == 2);
+
+        return players == null ? int.MinValue : players.Select(s => s.HitPoints).FirstOrDefault();
+      }
+    }
+
+    public int NumberOfPlayers
+    {
+      get
+      {
+        IEnumerable<Player> players = _playerGenerator.Players;
+
+        return players == null ? int.MinValue : players.Count();
+      }
+    }
+
+    public bool MapCleared
+    {
+      get
+      {
+        foreach (ISprite mapSprite in _sprites) 
+        {
+          IBadGuy badGuy = mapSprite as IBadGuy;
+
+          if (badGuy != null)
+          {
+            return false;
+          }
+        }
+
+        return true;
+      }
+    }
   }
 }

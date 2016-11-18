@@ -78,6 +78,7 @@
     <Compile Include="GameManagement\Interfaces\IWorldMapManager.cs" />
     <Compile Include="GameManagement\Interfaces\IWorldMap.cs" />
     <Compile Include="GameManagement\Menus\BaseMenu.cs" />
+    <Compile Include="GameManagement\Menus\GameOverMenu.cs" />
     <Compile Include="GameManagement\Menus\Interfaces\ICurrentMenu.cs" />
     <Compile Include="GameManagement\Menus\Interfaces\IMenuManager.cs" />
     <Compile Include="GameManagement\Menus\Interfaces\IStartMenu.cs" />

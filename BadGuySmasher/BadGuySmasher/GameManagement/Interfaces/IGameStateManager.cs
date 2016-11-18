@@ -12,6 +12,6 @@ namespace BadGuySmasher.GameManagement.Interfaces
     GameState         GameState       { get; set; }
     IMenuManager      MenuManager     { get; }
 
-    void UpdateGameState();
+    void UpdateMenuGameState();
   }
 }

@@ -14,6 +14,10 @@ namespace BadGuySmasher.GameManagement.Menus
 {
   public class MenuManager : IMenuManager
   {
+    public const string StartMenu     = "Start";
+    public const string PauseMenu     = "Pause";
+    public const string GameOverMenu  = "GameOver";
+    
     private const string MainMenuTitleFont = "TitleFont";
 
     private Dictionary<string, IMenu> _availableMenus;
@@ -44,17 +48,18 @@ namespace BadGuySmasher.GameManagement.Menus
 
     private void InitializeAvailalbeMenus(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, IGameStateManager gameStateManager)
     {
-      StartMenu startMenu = new StartMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
-
-      PauseMenu pauseMenu = new PauseMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
+      StartMenu     startMenu     = new StartMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
+      PauseMenu     pauseMenu     = new PauseMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
+      GameOverMenu  gameOverMenu  = new GameOverMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
 
       _availableMenus = new Dictionary<string, IMenu>();
 
-      _availableMenus.Add("StartMenu", startMenu);
-      _availableMenus.Add("PauseMenu", pauseMenu);
+      _availableMenus.Add(StartMenu,    startMenu);
+      _availableMenus.Add(PauseMenu,    pauseMenu);
+      _availableMenus.Add(GameOverMenu, gameOverMenu);
 
       // Set the current Menu
-      SetCurrentMenu("StartMenu");
+      SetCurrentMenu(StartMenu);
     }
 
     public ICurrentMenu CurrentMenu
@@ -84,6 +89,9 @@ namespace BadGuySmasher.GameManagement.Menus
       }
 
       _currentMenu = currentMenu;
+
+      // TODO RPW - Currently stuck here. Cannot get a full game cycle. end game to re-start game.
+      _currentMenu.SetMenuState(MenuState.Show);
     }
   }
 }

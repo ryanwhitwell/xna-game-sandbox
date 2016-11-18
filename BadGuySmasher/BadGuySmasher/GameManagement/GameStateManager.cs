@@ -22,7 +22,7 @@ namespace BadGuySmasher.GameManagement
     {
       _gameState        = GameState.Menu;
       _menuManager      = new MenuManager(contentManager, graphicsManager, this);
-      _worldMapManager  = new WorldMapManager(contentManager, graphicsDevice);
+      _worldMapManager  = new WorldMapManager(contentManager, graphicsDevice, this);
     }
 
     public GameState GameState 
@@ -54,7 +54,7 @@ namespace BadGuySmasher.GameManagement
       }
     }
 
-    public void UpdateGameState()
+    public void UpdateMenuGameState()
     {
       MenuState menuState = _menuManager.CurrentMenu.UpdateInput();
 

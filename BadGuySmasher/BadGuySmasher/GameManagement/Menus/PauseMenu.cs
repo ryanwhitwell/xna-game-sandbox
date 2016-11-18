@@ -6,6 +6,7 @@ using BadGuySmasher.GameManagement.Interfaces;
 using BadGuySmasher.GameManagement.Menus.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace BadGuySmasher.GameManagement.Menus
@@ -20,7 +21,7 @@ namespace BadGuySmasher.GameManagement.Menus
     {
       base.SpriteBatch.Begin();
 
-      string text = "!!! PAUSED !!!";
+      string text = "- PAUSED -";
       base.SpriteBatch.DrawString(base.MenuFont, text, new Vector2(base.GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - base.MenuFont.MeasureString(text).Length() / 2, base.GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2), Color.Black);
 
       base.SpriteBatch.End();
@@ -58,6 +59,11 @@ namespace BadGuySmasher.GameManagement.Menus
       }
 
       return MenuState.Exit;
+    }
+
+    public void SetMenuState(MenuState menuState)
+    {
+      base.MenuState = menuState;
     }
   }
 }

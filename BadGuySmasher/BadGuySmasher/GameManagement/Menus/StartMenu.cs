@@ -56,7 +56,7 @@ namespace BadGuySmasher
       if (_numberOfPlayers != 0)
       {
         // Update the current menu after the player selection is made
-        base.GameStateManager.MenuManager.SetCurrentMenu("PauseMenu");
+        base.GameStateManager.MenuManager.SetCurrentMenu(MenuManager.PauseMenu);
       }
 
       return base.MenuState;
@@ -73,6 +73,11 @@ namespace BadGuySmasher
       base.SpriteBatch.DrawString(base.MenuFont, text, new Vector2(base.GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - base.MenuFont.MeasureString(text).Length() / 2, base.GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2 + base.MenuFont.LineSpacing), Color.Black);
 
       base.SpriteBatch.End();
+    }
+
+    public void SetMenuState(MenuState menuState)
+    {
+      base.MenuState = menuState;
     }
   }
 }

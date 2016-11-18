@@ -13,5 +13,10 @@ namespace BadGuySmasher.GameManagement
     void SetNumberOfPlayers(int numberOfPlayers);
     void UpdateSpriteVectors(GameTime gameTime);
     void LoadMap();
+
+    int   Player1Health   { get; }
+    int   Player2Health   { get; }
+    int   NumberOfPlayers { get; }
+    bool  MapCleared      { get; }
   }
 }

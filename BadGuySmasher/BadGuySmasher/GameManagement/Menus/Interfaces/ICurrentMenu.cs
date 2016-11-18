@@ -5,5 +5,8 @@ using System.Text;
 
 namespace BadGuySmasher.GameManagement.Menus.Interfaces
 {
-  public interface ICurrentMenu : IMenu { }
+  public interface ICurrentMenu : IMenu 
+  {
+    void SetMenuState(MenuState menuState);
+  }
 }

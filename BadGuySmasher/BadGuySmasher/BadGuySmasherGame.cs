@@ -69,7 +69,7 @@ namespace BadGuySmasher
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      _gameStateManager.UpdateGameState();
+      _gameStateManager.UpdateMenuGameState();
 
       if (_gameStateManager.GameState == GameState.Game)
       {
