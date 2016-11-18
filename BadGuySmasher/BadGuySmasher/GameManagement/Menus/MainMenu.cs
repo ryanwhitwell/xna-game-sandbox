@@ -1,4 +1,5 @@
 ﻿using System;
+using BadGuySmasher.GameManagement.Menus.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,15 +7,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BadGuySmasher
 {
-  public class MainMenu
+  public class MainMenu : IMainMenu
   {
     SpriteFont            _titleFont;
     KeyboardState         _lastKeyboardState;
     ContentManager        _contentManager;
     GraphicsDeviceManager _graphics;
-    State                 _state = State.Showing;
+    State                 _state;
     SpriteBatch           _spriteBatch;
-    int                   _numberOfPlayers = 0;
+    int                   _numberOfPlayers;
 
     public enum State
     {

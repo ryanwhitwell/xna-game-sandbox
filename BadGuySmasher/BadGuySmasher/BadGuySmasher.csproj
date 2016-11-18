@@ -72,9 +72,12 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameManagement\GameStateManager.cs" />
+    <Compile Include="GameManagement\Interfaces\IGameStateManager.cs" />
     <Compile Include="GameManagement\Interfaces\IPlayerScoreManager.cs" />
     <Compile Include="GameManagement\Interfaces\IWorldMapManager.cs" />
     <Compile Include="GameManagement\Interfaces\IWorldMap.cs" />
+    <Compile Include="GameManagement\Menus\Interfaces\IMainMenu.cs" />
     <Compile Include="GameManagement\PlayerScoreManager.cs" />
     <Compile Include="GameManagement\WorldMapManager.cs" />
     <Compile Include="GameManagement\PhysicsEngine.cs" />
@@ -94,7 +97,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="BadGuySmasherGame.cs" />
-    <Compile Include="GameManagement\MainMenu.cs" />
+    <Compile Include="GameManagement\Menus\MainMenu.cs" />
     <Compile Include="Sprites\SpriteProperties.cs" />
     <Compile Include="Sprites\Objects\Wall.cs" />
     <Compile Include="GameManagement\WorldMap.cs" />

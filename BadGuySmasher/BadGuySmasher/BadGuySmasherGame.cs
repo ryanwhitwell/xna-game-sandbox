@@ -20,9 +20,8 @@ namespace BadGuySmasher
   public class BadGuySmasherGame : Game
   {
     GraphicsDeviceManager _graphics;
-    MainMenu              _mainMenu;
-    IWorldMapManager      _worldMapManager;
     GameState             _gameState;
+    IGameStateManager     _gameStateManager;
 
     public BadGuySmasherGame()
     {
@@ -44,8 +43,7 @@ namespace BadGuySmasher
     /// </summary>
     protected override void Initialize()
     {
-      _worldMapManager  = new WorldMapManager(Content, this.GraphicsDevice);
-      _mainMenu         = new MainMenu(Content, _graphics, "TitleFont");
+      _gameStateManager = new GameStateManager(Content, _graphics, this.GraphicsDevice);
 
       base.Initialize();
     }
@@ -56,7 +54,7 @@ namespace BadGuySmasher
     /// </summary>
     protected override void LoadContent() 
     {
-      _worldMapManager.GameBegin();
+      _gameStateManager.WorldMapManager.GameBegin();
     }
 
     /// <summary>
@@ -74,11 +72,11 @@ namespace BadGuySmasher
     {
       UpdateInput();
 
-      _worldMapManager.SetNumberOfPlayers(_mainMenu.NumberOfPlayers);
+      _gameStateManager.WorldMapManager.SetNumberOfPlayers(_gameStateManager.MainMenu.NumberOfPlayers);
 
       if (_gameState == GameState.Game)
       {
-        _worldMapManager.UpdateWorldMapSpriteVectors(gameTime);
+        _gameStateManager.WorldMapManager.UpdateWorldMapSpriteVectors(gameTime);
       }
 
       base.Update(gameTime);
@@ -86,7 +84,7 @@ namespace BadGuySmasher
 
     private void UpdateInput()
     {
-      if (_mainMenu.UpdateInput() == MainMenu.State.Exit)
+      if (_gameStateManager.MainMenu.UpdateInput() == MainMenu.State.Exit)
       {
         _gameState = GameState.Game;
       }
@@ -104,11 +102,11 @@ namespace BadGuySmasher
 
       if (_gameState == GameState.Menu)
       {
-        _mainMenu.Draw();
+        _gameStateManager.MainMenu.Draw();
       }
       else
       {
-        _worldMapManager.DrawWorldMapSprites(gameTime);
+        _gameStateManager.WorldMapManager.DrawWorldMapSprites(gameTime);
       }
 
       base.Draw(gameTime);
