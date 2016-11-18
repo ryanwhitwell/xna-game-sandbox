@@ -9,6 +9,7 @@ namespace BadGuySmasher.GameManagement.Interfaces
   public interface IGameStateManager
   {
     IWorldMapManager  WorldMapManager { get; }
-    IMainMenu         MainMenu        { get; }
+    GameState         GameState       { get; set; }
+    IMenuManager      MenuManager     { get; }
   }
 }

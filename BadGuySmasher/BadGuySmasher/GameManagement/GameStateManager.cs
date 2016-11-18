@@ -7,27 +7,41 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using BadGuySmasher.GameManagement.Interfaces;
 using BadGuySmasher.GameManagement.Menus.Interfaces;
+using BadGuySmasher.GameManagement.Menus;
 
 namespace BadGuySmasher.GameManagement
 {
   public class GameStateManager : IGameStateManager
   {
-    private const string MainMenuTitleFont = "TitleFont";
-
-    private MainMenu          _mainMenu;
+    private IMenuManager      _menuManager;
     private IWorldMapManager  _worldMapManager;
+    private GameState         _gameState;
 
     public GameStateManager(ContentManager contentManager, GraphicsDeviceManager graphicsManager, GraphicsDevice graphicsDevice)
     {
-      _mainMenu         = new MainMenu(contentManager, graphicsManager, MainMenuTitleFont);
+      _gameState        = GameState.Menu;
+      _menuManager      = new MenuManager(contentManager, graphicsManager, this);
       _worldMapManager  = new WorldMapManager(contentManager, graphicsDevice);
     }
 
-    public IMainMenu MainMenu
+    public GameState GameState 
+    { 
+      get
+      {
+        return _gameState;
+      }
+
+      set
+      {
+        _gameState = value;
+      }
+    }
+    
+    public IMenuManager MenuManager
     {
       get
       {
-        return _mainMenu;
+        return _menuManager;
       }
     }
 

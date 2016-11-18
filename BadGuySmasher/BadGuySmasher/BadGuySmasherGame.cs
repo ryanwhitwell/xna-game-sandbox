@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using BadGuySmasher.GameManagement;
 using BadGuySmasher.GameManagement.Interfaces;
+using BadGuySmasher.GameManagement.Menus;
 using BadGuySmasher.Sprites;
 using BadGuySmasher.Sprites.BadGuys;
 using BadGuySmasher.Sprites.Players;
@@ -20,13 +22,10 @@ namespace BadGuySmasher
   public class BadGuySmasherGame : Game
   {
     GraphicsDeviceManager _graphics;
-    GameState             _gameState;
     IGameStateManager     _gameStateManager;
 
     public BadGuySmasherGame()
     {
-      _gameState = GameState.Menu;
-
       _graphics = new GraphicsDeviceManager(this);
       _graphics.IsFullScreen               = false;
       _graphics.PreferredBackBufferHeight  = 900;
@@ -70,11 +69,9 @@ namespace BadGuySmasher
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      UpdateInput();
+      UpdateGameState(_gameStateManager.MenuManager.CurrentMenu.UpdateInput());
 
-      _gameStateManager.WorldMapManager.SetNumberOfPlayers(_gameStateManager.MainMenu.NumberOfPlayers);
-
-      if (_gameState == GameState.Game)
+      if (_gameStateManager.GameState == GameState.Game)
       {
         _gameStateManager.WorldMapManager.UpdateWorldMapSpriteVectors(gameTime);
       }
@@ -82,11 +79,18 @@ namespace BadGuySmasher
       base.Update(gameTime);
     }
 
-    private void UpdateInput()
+    private void UpdateGameState(MenuState menuState)
     {
-      if (_gameStateManager.MainMenu.UpdateInput() == MainMenu.State.Exit)
+      switch(menuState)
       {
-        _gameState = GameState.Game;
+        case MenuState.Exit:
+          _gameStateManager.GameState = GameState.Game;
+          break;
+        case MenuState.Show:
+          _gameStateManager.GameState = GameState.Menu;
+          break;
+        default:
+          throw new InvalidEnumArgumentException("menuState", (int)menuState, typeof(MenuState));
       }
     }
 
@@ -98,11 +102,9 @@ namespace BadGuySmasher
     {
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
-      var mouseState = Mouse.GetState();
-
-      if (_gameState == GameState.Menu)
+      if (_gameStateManager.GameState == GameState.Menu)
       {
-        _gameStateManager.MainMenu.Draw();
+        _gameStateManager.MenuManager.CurrentMenu.Draw();
       }
       else
       {

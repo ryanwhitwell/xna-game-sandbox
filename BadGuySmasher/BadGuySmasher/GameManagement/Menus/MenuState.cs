@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BadGuySmasher
+namespace BadGuySmasher.GameManagement.Menus
 {
-  public enum GameState
+  public enum MenuState
   {
-    Menu,
-    Game
+    Show,
+    Exit
   }
 }
