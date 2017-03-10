@@ -20,7 +20,7 @@ namespace BadGuySmasher.Sprites.Players
 
     public PlayerProjectile(ContentManager contentManager, 
                             GraphicsDevice graphicsDevice, 
-                            WorldMap       worldMap, 
+                            Level       worldMap, 
                             int            power,
                             Vector2        position, 
                             Vector2        speed, 

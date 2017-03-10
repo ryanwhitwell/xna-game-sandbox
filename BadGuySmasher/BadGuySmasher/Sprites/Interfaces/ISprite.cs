@@ -17,7 +17,7 @@ namespace BadGuySmasher.Sprites.Interfaces
     float          Squishiness    { get; }
     Texture2D      Texture        { get; }
     Vector2        Velocity       { get; set; }
-    WorldMap       WorldMap       { get; }
+    Level       WorldMap       { get; }
 
     void SetXPosition(float value);
     void SetXVelocity(float value);

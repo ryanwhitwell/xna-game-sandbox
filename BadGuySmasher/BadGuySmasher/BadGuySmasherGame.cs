@@ -1,28 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using BadGuySmasher.GameManagement;
 using BadGuySmasher.GameManagement.Interfaces;
-using BadGuySmasher.GameManagement.Menus;
-using BadGuySmasher.Sprites;
-using BadGuySmasher.Sprites.BadGuys;
-using BadGuySmasher.Sprites.Players;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace BadGuySmasher
 {
   public class BadGuySmasherGame : Game
   {
     GraphicsDeviceManager _graphics;
-    IGameStateManager     _gameStateManager;
+    IGameManager          _gameManager;
 
     public BadGuySmasherGame()
     {
@@ -42,7 +29,7 @@ namespace BadGuySmasher
     /// </summary>
     protected override void Initialize()
     {
-      _gameStateManager = new GameStateManager(Content, _graphics, this.GraphicsDevice);
+      _gameManager = new GameManager(Content, _graphics, GraphicsDevice);
 
       base.Initialize();
     }
@@ -53,7 +40,7 @@ namespace BadGuySmasher
     /// </summary>
     protected override void LoadContent() 
     {
-      _gameStateManager.WorldMapManager.GameBegin();
+      
     }
 
     /// <summary>
@@ -69,11 +56,13 @@ namespace BadGuySmasher
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      _gameStateManager.UpdateMenuGameState();
+      Debug.WriteLine("GameManager GameState: '{0}', MenuManager CurrentMenu GameState: '{1}', CurrentMenu: '{2}'.", _gameManager.GameState, _gameManager.MenuManager.CurrentMenu.UpdateInput(), _gameManager.MenuManager.CurrentMenu.Name);
 
-      if (_gameStateManager.GameState == GameState.Game)
+      _gameManager.GameState = _gameManager.MenuManager.CurrentMenu.UpdateInput();
+
+      if (_gameManager.GameState == GameState.Play)
       {
-        _gameStateManager.WorldMapManager.UpdateWorldMapSpriteVectors(gameTime);
+        _gameManager.LevelManager.UpdateWorldMapSpriteVectors(gameTime);
       }
 
       base.Update(gameTime);
@@ -87,14 +76,12 @@ namespace BadGuySmasher
     {
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
-      if (_gameStateManager.GameState == GameState.Menu)
+      if (_gameManager.GameState == GameState.Menu || _gameManager.GameState == GameState.End)
       {
-        _gameStateManager.MenuManager.CurrentMenu.Draw();
+        _gameManager.MenuManager.CurrentMenu.Draw();
       }
-      else
-      {
-        _gameStateManager.WorldMapManager.DrawWorldMapSprites(gameTime);
-      }
+
+      _gameManager.LevelManager.DrawWorldMapSprites(gameTime);
 
       base.Draw(gameTime);
     }

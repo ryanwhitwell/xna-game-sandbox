@@ -15,11 +15,10 @@ namespace BadGuySmasher.GameManagement.Menus
     private KeyboardState         _lastKeyboardState;
     private ContentManager        _contentManager;
     private GraphicsDeviceManager _graphicsDeviceManager;
-    private MenuState             _menuState;
     private SpriteBatch           _spriteBatch;
-    private IGameStateManager     _gameStateManager;
+    private IMenuManager          _menuManager;
 
-    public BaseMenu(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, string spriteFontAssetName, IGameStateManager gameStateManager)
+    public BaseMenu(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, string spriteFontAssetName, IMenuManager menuManager)
     {
       if (contentManager == null)
       {
@@ -36,9 +35,9 @@ namespace BadGuySmasher.GameManagement.Menus
         throw new ArgumentNullException("spriteFontAssetName");
       }
 
-      if (gameStateManager == null)
+      if (menuManager == null)
       {
-        throw new ArgumentNullException("gameStateManager");
+        throw new ArgumentNullException("menuManager");
       }
       
       _contentManager         = contentManager;
@@ -46,7 +45,7 @@ namespace BadGuySmasher.GameManagement.Menus
       _lastKeyboardState      = Keyboard.GetState();
       _spriteBatch            = new SpriteBatch(graphicsDeviceManager.GraphicsDevice);
       _menuFont               = _contentManager.Load<SpriteFont>(spriteFontAssetName);
-      _gameStateManager       = gameStateManager;
+      _menuManager            = menuManager;
     }
 
     protected SpriteBatch SpriteBatch
@@ -54,19 +53,6 @@ namespace BadGuySmasher.GameManagement.Menus
       get
       {
         return _spriteBatch;
-      }
-    }
-
-    protected MenuState MenuState
-    {
-      get
-      {
-        return _menuState;
-      }
-
-      set
-      {
-        _menuState = value;
       }
     }
 
@@ -99,11 +85,11 @@ namespace BadGuySmasher.GameManagement.Menus
       }
     }
 
-    protected IGameStateManager GameStateManager
+    protected IMenuManager MenuManager
     {
       get
       {
-        return _gameStateManager;
+        return _menuManager;
       }
     }
   }

@@ -12,50 +12,59 @@ namespace BadGuySmasher.GameManagement.Menus
 {
   public class GameOverMenu : BaseMenu, ICurrentMenu
   {
-    public GameOverMenu(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName, IGameStateManager gameStateManager) : base(contentManager, graphics, spriteFontAssetName, gameStateManager) { }
-  
-    public MenuState UpdateInput()
+    private string _name;
+
+    public GameOverMenu(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName, IMenuManager menuManager, string name) : base(contentManager, graphics, spriteFontAssetName, menuManager)
     {
-      if (base.MenuState == MenuState.Exit)
+      if (string.IsNullOrWhiteSpace(name))
       {
-        return MenuState.Exit;
+        throw new ArgumentNullException("name");
       }
 
+      _name = name;
+    }
+
+    public string Name { get { return _name; } }
+  
+    public GameState UpdateInput()
+    {
       KeyboardState newState = Keyboard.GetState();
 
       if (newState.IsKeyUp(Keys.Escape))
       {
         // If not down last update, key has just been pressed.
-        if (base.LastKeyboardState.IsKeyDown(Keys.Escape))
+        if (LastKeyboardState.IsKeyDown(Keys.Escape))
         {
-          base.MenuState = MenuState.Exit;
+          MenuManager.GameManager.GameState = GameState.Menu;
 
           // Update the game state with the number of players to 0
-          base.GameStateManager.WorldMapManager.SetNumberOfPlayers(0);
+          MenuManager.GameManager.LevelManager.SetNumberOfPlayers(0);
 
-          base.GameStateManager.MenuManager.SetCurrentMenu(MenuManager.StartMenu);
+          MenuManager.SetCurrentMenu(Menus.MenuManager.StartMenu);
+
+          MenuManager.GameManager.GameState = GameState.Ready;
         }
       }
 
       // Update saved state.
-      base.LastKeyboardState = newState;
+      LastKeyboardState = newState;
 
-      return base.MenuState;
+      return MenuManager.GameManager.GameState;
     }
 
     public void Draw()
     {
-      base.SpriteBatch.Begin();
+      SpriteBatch.Begin();
 
       string text = "!!! Game Over !!!";
-      base.SpriteBatch.DrawString(base.MenuFont, text, new Vector2(base.GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - base.MenuFont.MeasureString(text).Length() / 2, base.GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2), Color.Black);
+      SpriteBatch.DrawString(base.MenuFont, text, new Vector2(base.GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - base.MenuFont.MeasureString(text).Length() / 2, base.GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2), Color.Black);
 
-      base.SpriteBatch.End();
+      SpriteBatch.End();
     }
 
-    public void SetMenuState(MenuState menuState)
+    public void SetGameState(GameState gameState)
     {
-      base.MenuState = menuState;
+       MenuManager.GameManager.GameState = gameState;
     }
   }
 }

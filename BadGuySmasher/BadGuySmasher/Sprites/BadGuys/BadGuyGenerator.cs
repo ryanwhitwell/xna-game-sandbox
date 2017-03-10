@@ -28,7 +28,7 @@ namespace BadGuySmasher.Sprites.BadGuys
 
     private List<Sprite> _generatedSprites = new List<Sprite>();
 
-    public BadGuyGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, int maxBadGuys, int secondsBetweenGeneratons, int hitPoints, string generatorTextureAssetName, string spriteTextureAssetName) 
+    public BadGuyGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, Level worldMap, Vector2 spritePosition, int maxBadGuys, int secondsBetweenGeneratons, int hitPoints, string generatorTextureAssetName, string spriteTextureAssetName) 
       : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName, new SpriteProperties(0, new Vector2(), new Vector2()))
     {
       if (string.IsNullOrWhiteSpace(spriteTextureAssetName))

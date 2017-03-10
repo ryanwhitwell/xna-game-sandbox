@@ -11,73 +11,79 @@ namespace BadGuySmasher
 {
   public class StartMenu : BaseMenu, IStartMenu
   {
-    private int _numberOfPlayers;
+    private string  _name;
+    private int     _numberOfPlayers;
+
+    public string Name { get { return _name; } }
 
     public int NumberOfPlayers { get { return _numberOfPlayers; } }
 
-    public StartMenu(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName, IGameStateManager gameStateManager) : base(contentManager, graphics, spriteFontAssetName, gameStateManager) { }
-
-    public MenuState UpdateInput()
+    public StartMenu(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName, IMenuManager menuManager, string name) : base(contentManager, graphics, spriteFontAssetName, menuManager)
     {
-      if (base.MenuState == MenuState.Exit)
+      if (string.IsNullOrWhiteSpace(name))
       {
-        return MenuState.Exit;
+        throw new ArgumentNullException("name");
       }
 
+      _name = name;
+    }
+
+    public GameState UpdateInput()
+    {
       KeyboardState newState = Keyboard.GetState();
 
       if (newState.IsKeyUp(Keys.D1))
       {
         // If not down last update, key has just been pressed.
-        if (base.LastKeyboardState.IsKeyDown(Keys.D1))
+        if (LastKeyboardState.IsKeyDown(Keys.D1))
         {
           _numberOfPlayers = 1;
-          base.MenuState = MenuState.Exit;
+          MenuManager.GameManager.GameState = GameState.Ready;
         }
       }
       
       if (newState.IsKeyUp(Keys.D2))
       {
         // If not down last update, key has just been pressed.
-        if (base.LastKeyboardState.IsKeyDown(Keys.D2))
+        if (LastKeyboardState.IsKeyDown(Keys.D2))
         {
           // TODO: 2-Players - We currently only support 1 player, so we card-code the main menu to force the selection of 1 player
           _numberOfPlayers = 1; 
-          base.MenuState = MenuState.Exit;
+          MenuManager.GameManager.GameState = GameState.Ready;
         }
       }
 
       // Update saved state.
-      base.LastKeyboardState = newState;
+      LastKeyboardState = newState;
 
       // Update the game state with the number of players selected on this Menu
-      base.GameStateManager.WorldMapManager.SetNumberOfPlayers(_numberOfPlayers);
+      MenuManager.GameManager.LevelManager.SetNumberOfPlayers(_numberOfPlayers);
 
       if (_numberOfPlayers != 0)
       {
         // Update the current menu after the player selection is made
-        base.GameStateManager.MenuManager.SetCurrentMenu(MenuManager.PauseMenu);
+        MenuManager.SetCurrentMenu(GameManagement.Menus.MenuManager.PauseMenu);
       }
 
-      return base.MenuState;
+      return MenuManager.GameManager.GameState;
     }
 
     public void Draw()
     {
-      base.SpriteBatch.Begin();
+      SpriteBatch.Begin();
 
       string text = "Bad Guy Smasher";
-      base.SpriteBatch.DrawString(base.MenuFont, text, new Vector2(base.GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - base.MenuFont.MeasureString(text).Length() / 2, base.GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2), Color.Black);
+      SpriteBatch.DrawString(MenuFont, text, new Vector2(GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - MenuFont.MeasureString(text).Length() / 2, GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2), Color.Black);
 
       text = "Please select a number of Players to continue (1 or 2)";
-      base.SpriteBatch.DrawString(base.MenuFont, text, new Vector2(base.GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - base.MenuFont.MeasureString(text).Length() / 2, base.GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2 + base.MenuFont.LineSpacing), Color.Black);
+      SpriteBatch.DrawString(MenuFont, text, new Vector2(GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - MenuFont.MeasureString(text).Length() / 2, GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2 + MenuFont.LineSpacing), Color.Black);
 
-      base.SpriteBatch.End();
+      SpriteBatch.End();
     }
 
-    public void SetMenuState(MenuState menuState)
+    public void SetGameState(GameState gameState)
     {
-      base.MenuState = menuState;
+      MenuManager.GameManager.GameState = gameState;
     }
   }
 }

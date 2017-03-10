@@ -14,14 +14,14 @@ namespace BadGuySmasher.Sprites
     private Vector2           _position;
     private Vector2           _velocity;
     private Rectangle         _bounds;
-    private WorldMap          _worldMap;
+    private Level          _worldMap;
     private ContentManager    _contentManager;
     private string            _id;
     private SpriteFont        _spriteFont;
     private float             _rotation;
     public  SpriteProperties  _spriteProperties;
 
-    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, string textureAssetName, SpriteProperties spriteProperties) : base(graphicsDevice)
+    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, Level worldMap, Vector2 velocity, Vector2 position, string textureAssetName, SpriteProperties spriteProperties) : base(graphicsDevice)
     {
       if (contentManager == null)
       {
@@ -70,7 +70,7 @@ namespace BadGuySmasher.Sprites
       }
     }
 
-    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, string textureAssetName, SpriteProperties spriteProperties)
+    public Sprite(ContentManager contentManager, GraphicsDevice graphicsDevice, Level worldMap, Vector2 position, string textureAssetName, SpriteProperties spriteProperties)
       :this(contentManager, graphicsDevice, worldMap, new Vector2(0, 0), position, textureAssetName, spriteProperties)
     {
     }
@@ -122,7 +122,7 @@ namespace BadGuySmasher.Sprites
 
     public string         Id             { get { return _id; } }
     public Rectangle      Bounds         { get { return _bounds; } }
-    public WorldMap       WorldMap       { get { return _worldMap; } }
+    public Level       WorldMap       { get { return _worldMap; } }
     public ContentManager ContentManager { get { return _contentManager; } }
     public bool           DrawBounds     { get; set; }
     public float          Squishiness    { get { return _spriteProperties.Squishiness; } }

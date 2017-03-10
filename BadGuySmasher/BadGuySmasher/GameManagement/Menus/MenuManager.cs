@@ -21,10 +21,10 @@ namespace BadGuySmasher.GameManagement.Menus
     private const string MainMenuTitleFont = "TitleFont";
 
     private Dictionary<string, IMenu> _availableMenus;
-    private IGameStateManager         _gameStateManager;
+    private IGameManager              _gameManager;
     private ICurrentMenu              _currentMenu;
     
-    public MenuManager(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, IGameStateManager gameStateManager)
+    public MenuManager(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, IGameManager gameManager)
     {
       if (contentManager == null)
       {
@@ -36,21 +36,21 @@ namespace BadGuySmasher.GameManagement.Menus
         throw new ArgumentNullException("graphicsDeviceManager");
       }
 
-      if (gameStateManager == null)
+      if (gameManager == null)
       {
         throw new ArgumentNullException("gameStateManager");
       }
 
-      _gameStateManager = gameStateManager;
+      _gameManager = gameManager;
 
-      InitializeAvailalbeMenus(contentManager, graphicsDeviceManager, gameStateManager);
+      InitializeAvailalbeMenus(contentManager, graphicsDeviceManager, this);
     }
 
-    private void InitializeAvailalbeMenus(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, IGameStateManager gameStateManager)
+    private void InitializeAvailalbeMenus(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, IMenuManager menuManager)
     {
-      StartMenu     startMenu     = new StartMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
-      PauseMenu     pauseMenu     = new PauseMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
-      GameOverMenu  gameOverMenu  = new GameOverMenu(contentManager, graphicsDeviceManager, MainMenuTitleFont, gameStateManager); 
+      StartMenu     startMenu     = new StartMenu(contentManager,     graphicsDeviceManager, MainMenuTitleFont, menuManager, StartMenu); 
+      PauseMenu     pauseMenu     = new PauseMenu(contentManager,     graphicsDeviceManager, MainMenuTitleFont, menuManager, PauseMenu); 
+      GameOverMenu  gameOverMenu  = new GameOverMenu(contentManager,  graphicsDeviceManager, MainMenuTitleFont, menuManager, GameOverMenu); 
 
       _availableMenus = new Dictionary<string, IMenu>();
 
@@ -91,7 +91,15 @@ namespace BadGuySmasher.GameManagement.Menus
       _currentMenu = currentMenu;
 
       // TODO RPW - Currently stuck here. Cannot get a full game cycle. end game to re-start game.
-      _currentMenu.SetMenuState(MenuState.Show);
+      _currentMenu.SetGameState(GameState.Menu);
+    }
+
+    public IGameManager GameManager
+    {
+      get
+      {
+        return _gameManager;
+      }
     }
   }
 }

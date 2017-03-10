@@ -13,57 +13,69 @@ namespace BadGuySmasher.GameManagement.Menus
 {
   public class PauseMenu : BaseMenu, ICurrentMenu
   {
-    private bool _paused;
+    private const string PausedText = "- PAUSED -";
+
+    private bool    _paused;
+    private string  _name;
     
-    public PauseMenu(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName, IGameStateManager gameStateManager) : base(contentManager, graphics, spriteFontAssetName, gameStateManager) { }
+    public PauseMenu(ContentManager contentManager, GraphicsDeviceManager graphics, string spriteFontAssetName, IMenuManager menuManager, string name) : base(contentManager, graphics, spriteFontAssetName, menuManager)
+    {
+      if (string.IsNullOrWhiteSpace(name))
+      {
+        throw new ArgumentNullException("name");
+      }
+
+      _name = name;
+    }
+
+    public string Name { get { return _name; } }
 
     public void Draw()
     {
-      base.SpriteBatch.Begin();
-
-      string text = "- PAUSED -";
-      base.SpriteBatch.DrawString(base.MenuFont, text, new Vector2(base.GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - base.MenuFont.MeasureString(text).Length() / 2, base.GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2), Color.Black);
-
-      base.SpriteBatch.End();
-    }
-
-    public MenuState UpdateInput()
-    {
-      if (base.MenuState == MenuState.Exit)
+      if (MenuManager.GameManager.GameState != GameState.Menu)
       {
-        return MenuState.Exit;
+        return;
       }
 
+      SpriteBatch.Begin();
+
+      SpriteBatch.DrawString(MenuFont, PausedText, new Vector2(GraphicsDeviceManager.GraphicsDevice.Viewport.Width / 2 - MenuFont.MeasureString(PausedText).Length() / 2, GraphicsDeviceManager.GraphicsDevice.Viewport.Height / 2), Color.Black);
+
+      SpriteBatch.End();
+    }
+
+    public GameState UpdateInput()
+    {
       KeyboardState newState = Keyboard.GetState();
 
       if (newState.IsKeyUp(Keys.P))
       {
         // If not down last update, key has just been pressed.
-        if (base.LastKeyboardState.IsKeyDown(Keys.P))
+        if (LastKeyboardState.IsKeyDown(Keys.P))
         {
           _paused = !_paused;
         }
       }
 
       // Update saved state.
-      base.LastKeyboardState = newState;
+      LastKeyboardState = newState;
 
-      return GetMenuState(_paused);
+      return GetGameState(_paused);
     }
 
-    private MenuState GetMenuState(bool paused)
+    private GameState GetGameState(bool paused)
     {
       if (paused)
       {
-        return MenuState.Show;
+        return GameState.Menu;
       }
 
-      return MenuState.Exit;
+      return GameState.Play;
     }
 
-    public void SetMenuState(MenuState menuState)
+    public void SetGameState(GameState gameState)
     {
-      base.MenuState = menuState;
+      MenuManager.GameManager.GameState = gameState;
     }
   }
 }

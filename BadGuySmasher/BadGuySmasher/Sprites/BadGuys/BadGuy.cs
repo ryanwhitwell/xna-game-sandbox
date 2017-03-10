@@ -15,7 +15,7 @@ namespace BadGuySmasher.Sprites.BadGuys
   {
     private int _hitPoints;
     
-    public BadGuy(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 velocity, Vector2 position, int hitPoints, string textureAssetName, SpriteProperties spriteProperties)
+    public BadGuy(ContentManager contentManager, GraphicsDevice graphicsDevice, Level worldMap, Vector2 velocity, Vector2 position, int hitPoints, string textureAssetName, SpriteProperties spriteProperties)
       : base(contentManager, graphicsDevice, worldMap, velocity, position, textureAssetName, spriteProperties)
     {
       _hitPoints = hitPoints;

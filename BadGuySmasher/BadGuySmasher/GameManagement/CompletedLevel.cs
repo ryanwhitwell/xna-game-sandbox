@@ -5,7 +5,9 @@ using System.Text;
 
 namespace BadGuySmasher.GameManagement
 {
-  public class PlayerScoreManager
+  public class CompletedLevel
   {
+    public int Score { get; set; }
+
   }
 }

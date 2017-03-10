@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher.GameManagement
 {
-  public sealed class WorldMap : IWorldMap
+  public sealed class Level : ILevel
   {
     private ICollection<ISprite>  _sprites;
     private ContentManager        _content;
@@ -22,7 +22,7 @@ namespace BadGuySmasher.GameManagement
     private PlayerGenerator       _playerGenerator;
     private string                _spriteAssetFilePath;
 
-    public WorldMap(ContentManager content, GraphicsDevice graphicsDevice, string spriteAssetFilePath) 
+    public Level(ContentManager content, GraphicsDevice graphicsDevice, string spriteAssetFilePath) 
     {
       _sprites              = new Collection<ISprite>();
       _content              = content;
@@ -31,6 +31,8 @@ namespace BadGuySmasher.GameManagement
       _physicsEngine        = new PhysicsEngine();
       _spriteAssetFilePath  = spriteAssetFilePath;
     }
+
+    public bool Started { get; set; }
 
     public ICollection<ISprite> Sprites
     {
@@ -242,6 +244,11 @@ namespace BadGuySmasher.GameManagement
 
         return true;
       }
+    }
+
+    public void RespawnPlayers()
+    {
+      _playerGenerator.RespawnPlayers();
     }
   }
 }

@@ -72,11 +72,11 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameManagement\GameStateManager.cs" />
-    <Compile Include="GameManagement\Interfaces\IGameStateManager.cs" />
-    <Compile Include="GameManagement\Interfaces\IPlayerScoreManager.cs" />
-    <Compile Include="GameManagement\Interfaces\IWorldMapManager.cs" />
-    <Compile Include="GameManagement\Interfaces\IWorldMap.cs" />
+    <Compile Include="GameManagement\CompletedLevel.cs" />
+    <Compile Include="GameManagement\GameManager.cs" />
+    <Compile Include="GameManagement\Interfaces\IGameManager.cs" />
+    <Compile Include="GameManagement\Interfaces\ILevelManager.cs" />
+    <Compile Include="GameManagement\Interfaces\ILevel.cs" />
     <Compile Include="GameManagement\Menus\BaseMenu.cs" />
     <Compile Include="GameManagement\Menus\GameOverMenu.cs" />
     <Compile Include="GameManagement\Menus\Interfaces\ICurrentMenu.cs" />
@@ -84,17 +84,17 @@
     <Compile Include="GameManagement\Menus\Interfaces\IStartMenu.cs" />
     <Compile Include="GameManagement\Menus\Interfaces\IMenu.cs" />
     <Compile Include="GameManagement\Menus\MenuManager.cs" />
-    <Compile Include="GameManagement\Menus\MenuState.cs" />
     <Compile Include="GameManagement\Menus\PauseMenu.cs" />
-    <Compile Include="GameManagement\PlayerScoreManager.cs" />
-    <Compile Include="GameManagement\WorldMapManager.cs" />
+    <Compile Include="GameManagement\LevelManager.cs" />
     <Compile Include="GameManagement\PhysicsEngine.cs" />
+    <Compile Include="GameManagement\User.cs" />
     <Compile Include="Sprites\BadGuys\BadGuy.cs" />
     <Compile Include="Sprites\Interfaces\IPlayer.cs" />
     <Compile Include="Sprites\Interfaces\IProjectile.cs" />
     <Compile Include="Sprites\Interfaces\IBadGuy.cs" />
     <Compile Include="Sprites\Interfaces\ISquishy.cs" />
     <Compile Include="Sprites\Interfaces\ISprite.cs" />
+    <Compile Include="Sprites\Interfaces\IPlayerGenerator.cs" />
     <Compile Include="Sprites\Players\Player.cs" />
     <Compile Include="Sprites\Players\PlayerGenerator.cs" />
     <Compile Include="Sprites\Players\PlayerProjectile.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="GameManagement\Menus\StartMenu.cs" />
     <Compile Include="Sprites\SpriteProperties.cs" />
     <Compile Include="Sprites\Objects\Wall.cs" />
-    <Compile Include="GameManagement\WorldMap.cs" />
+    <Compile Include="GameManagement\Level.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

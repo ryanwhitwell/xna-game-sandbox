@@ -23,7 +23,7 @@ namespace BadGuySmasher.Sprites.Players
 
     private KeyboardState _previousKeyboardState;
     
-    public Player(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 position, int hitPoints, string textureAssetName, int playerNumber) : base(contentManager, graphicsDevice, worldMap, position, textureAssetName, null)
+    public Player(ContentManager contentManager, GraphicsDevice graphicsDevice, Level worldMap, Vector2 position, int hitPoints, string textureAssetName, int playerNumber) : base(contentManager, graphicsDevice, worldMap, position, textureAssetName, null)
     {
       _hitPoints  = hitPoints;
       _number     = playerNumber;

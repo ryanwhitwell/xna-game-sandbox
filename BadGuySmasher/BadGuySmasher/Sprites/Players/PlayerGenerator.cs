@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using BadGuySmasher.GameManagement;
+using BadGuySmasher.Sprites.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BadGuySmasher.Sprites.Players
 {
-  public class PlayerGenerator : Sprite
+  public class PlayerGenerator : Sprite, IPlayerGenerator
   {
     private const int PlayerHitPoints = 100;
     
@@ -16,7 +17,7 @@ namespace BadGuySmasher.Sprites.Players
     private ICollection<Player> _players;
     private int                 _numberOfPlayers;
   
-    public PlayerGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, WorldMap worldMap, Vector2 spritePosition, string generatorTextureAssetName, string playerTextureAssetName) : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName, null)
+    public PlayerGenerator(ContentManager contentManager, GraphicsDevice graphicsDevice, Level worldMap, Vector2 spritePosition, string generatorTextureAssetName, string playerTextureAssetName) : base(contentManager, graphicsDevice, worldMap, spritePosition, generatorTextureAssetName, null)
     {
       if (string.IsNullOrWhiteSpace(playerTextureAssetName))
       {
@@ -55,6 +56,11 @@ namespace BadGuySmasher.Sprites.Players
         _players.Add(newPlayer);
         WorldMap.Sprites.Add(newPlayer);
       }
+    }
+
+    public void RespawnPlayers()
+    {
+      SpawnPlayers();
     }
   }
 }
